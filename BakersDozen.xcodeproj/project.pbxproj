@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1153409A20746BC300E96433 /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1153409920746BC300E96433 /* FileManagerExtension.swift */; };
 		11A9F75C2073291000007F48 /* RecipeTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9F75B2073291000007F48 /* RecipeTableVC.swift */; };
 		11A9F76020732A0700007F48 /* RecipeTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9F75F20732A0700007F48 /* RecipeTableCell.swift */; };
 		11A9F76220732A1500007F48 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9F76120732A1500007F48 /* Recipe.swift */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1153409920746BC300E96433 /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
 		11A9F75B2073291000007F48 /* RecipeTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableVC.swift; sourceTree = "<group>"; };
 		11A9F75F20732A0700007F48 /* RecipeTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableCell.swift; sourceTree = "<group>"; };
 		11A9F76120732A1500007F48 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
@@ -41,6 +43,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1153409820746BB400E96433 /* Lib */ = {
+			isa = PBXGroup;
+			children = (
+				1153409920746BC300E96433 /* FileManagerExtension.swift */,
+			);
+			path = Lib;
+			sourceTree = "<group>";
+		};
 		11A9F75D2073292200007F48 /* VC */ = {
 			isa = PBXGroup;
 			children = (
@@ -79,6 +89,7 @@
 		11C10820207325D300905364 /* BakersDozen */ = {
 			isa = PBXGroup;
 			children = (
+				1153409820746BB400E96433 /* Lib */,
 				11A9F75E2073293500007F48 /* Model */,
 				11A9F75D2073292200007F48 /* VC */,
 				11C10821207325D300905364 /* AppDelegate.swift */,
@@ -162,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				11A9F75C2073291000007F48 /* RecipeTableVC.swift in Sources */,
+				1153409A20746BC300E96433 /* FileManagerExtension.swift in Sources */,
 				11C10822207325D300905364 /* AppDelegate.swift in Sources */,
 				11A9F7642073313400007F48 /* RecipeData.swift in Sources */,
 				11A9F76020732A0700007F48 /* RecipeTableCell.swift in Sources */,
