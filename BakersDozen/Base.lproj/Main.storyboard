@@ -4,8 +4,9 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +14,7 @@
         <!--Baker's Dozen-->
         <scene sceneID="uvr-6h-IyY">
             <objects>
-                <tableViewController id="vhh-WU-trW" customClass="RecipeTableVC" customModule="BakersDozen" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="Home" id="vhh-WU-trW" customClass="RecipeTableVC" customModule="BakersDozen" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="8t1-VW-iMG">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -49,28 +50,36 @@
             </objects>
             <point key="canvasLocation" x="255.19999999999999" y="-40.029985007496258"/>
         </scene>
-        <!--View Controller-->
+        <!--View RecipeVC-->
         <scene sceneID="0G4-aJ-3Fu">
             <objects>
-                <viewController id="1Ug-KU-KPr" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ViewRecipe" id="1Ug-KU-KPr" customClass="ViewRecipeVC" customModule="BakersDozen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="aZ8-h0-rLk">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nxq-5u-j9a">
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nxq-5u-j9a">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BDF-rV-d2A">
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BDF-rV-d2A">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bMe-UR-6iC">
                                                 <rect key="frame" x="0.0" y="0.0" width="375" height="161"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ES-Cm-job">
-                                                <rect key="frame" x="24" y="169" width="327" height="40"/>
-                                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHq-hm-YKU">
+                                                <rect key="frame" x="310" y="96" width="50" height="50"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="46T-ff-v3l"/>
+                                                </constraints>
+                                                <state key="normal" title="Make"/>
+                                                <connections>
+                                                    <segue destination="bDr-Fl-2gu" kind="show" id="PxN-J2-c8o"/>
+                                                </connections>
+                                            </button>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ES-Cm-job">
+                                                <rect key="frame" x="8" y="169" width="160.5" height="27.5"/>
                                                 <attributedString key="attributedText">
                                                     <fragment content="Blueberry Muffins">
                                                         <attributes>
@@ -84,8 +93,25 @@
                                             </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstItem="4ES-Cm-job" firstAttribute="top" secondItem="PHq-hm-YKU" secondAttribute="bottom" constant="23" id="CuM-PA-iRJ"/>
+                                            <constraint firstItem="4ES-Cm-job" firstAttribute="leading" secondItem="BDF-rV-d2A" secondAttribute="leading" constant="8" id="JVD-qV-NI4"/>
+                                            <constraint firstAttribute="bottom" secondItem="PHq-hm-YKU" secondAttribute="bottom" constant="457" id="SsZ-lL-QhS"/>
+                                            <constraint firstItem="PHq-hm-YKU" firstAttribute="top" secondItem="BDF-rV-d2A" secondAttribute="top" constant="96" id="cBA-Ml-H2A"/>
+                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4ES-Cm-job" secondAttribute="trailing" id="dJ6-ej-gQz"/>
+                                            <constraint firstItem="PHq-hm-YKU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BDF-rV-d2A" secondAttribute="leading" constant="20" symbolic="YES" id="g2b-67-jyE"/>
+                                            <constraint firstAttribute="trailing" secondItem="PHq-hm-YKU" secondAttribute="trailing" constant="15" id="sll-Fp-CKZ"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="BDF-rV-d2A" secondAttribute="trailing" id="1Eh-em-BxY"/>
+                                    <constraint firstItem="BDF-rV-d2A" firstAttribute="top" secondItem="Nxq-5u-j9a" secondAttribute="top" id="1T8-7x-y8y"/>
+                                    <constraint firstAttribute="bottom" secondItem="BDF-rV-d2A" secondAttribute="bottom" id="7WL-AS-cnu"/>
+                                    <constraint firstItem="BDF-rV-d2A" firstAttribute="leading" secondItem="Nxq-5u-j9a" secondAttribute="leading" id="7b8-nd-Fau"/>
+                                    <constraint firstItem="BDF-rV-d2A" firstAttribute="centerY" secondItem="Nxq-5u-j9a" secondAttribute="centerY" id="VMx-lu-R3q"/>
+                                    <constraint firstItem="BDF-rV-d2A" firstAttribute="centerX" secondItem="Nxq-5u-j9a" secondAttribute="centerX" id="bjW-LB-qYX"/>
+                                </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -102,46 +128,68 @@
             </objects>
             <point key="canvasLocation" x="253.59999999999999" y="720.08995502248877"/>
         </scene>
-        <!--New Recipe-->
-        <scene sceneID="4zf-BL-kcB">
+        <!--View Controller-->
+        <scene sceneID="g7Z-mR-g6K">
             <objects>
-                <tableViewController id="qKn-Uc-7Hn" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="RaF-D9-yh8">
+                <viewController id="bDr-Fl-2gu" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mId-Cs-wzc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <button key="tableFooterView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="nrg-9X-fop">
-                            <rect key="frame" x="0.0" y="433" width="375" height="44"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <state key="normal" title="Share"/>
-                        </button>
+                        <viewLayoutGuide key="safeArea" id="PwK-9b-TPt"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u1B-bL-vMc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="972" y="720"/>
+        </scene>
+        <!--New Recipe-->
+        <scene sceneID="4zf-BL-kcB">
+            <objects>
+                <tableViewController storyboardIdentifier="EditRecipe" id="qKn-Uc-7Hn" customClass="EditRecipeTableVC" customModule="BakersDozen" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="RaF-D9-yh8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <sections>
-                            <tableViewSection id="zkZ-I7-CTH">
+                            <tableViewSection id="zkZ-I7-CTH" userLabel="Image">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="124" id="URb-bE-MgY">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhotoSelect" rowHeight="124" id="URb-bE-MgY">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="URb-bE-MgY" id="eoI-iR-Gcf">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="123.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="OLt-Au-DrE">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="OLt-Au-DrE">
                                                     <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" secondItem="OLt-Au-DrE" secondAttribute="height" multiplier="375:124" id="wQK-G4-QhB"/>
+                                                    </constraints>
                                                 </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IbM-cp-eSm">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IbM-cp-eSm">
                                                     <rect key="frame" x="145" y="46" width="84" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" title="SelectPhoto"/>
+                                                    <connections>
+                                                        <action selector="ChoosePhotoFromLibrary:" destination="qKn-Uc-7Hn" eventType="touchUpInside" id="Sxm-Ug-uSt"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="IbM-cp-eSm" firstAttribute="centerY" secondItem="eoI-iR-Gcf" secondAttribute="centerY" id="bkQ-1R-tSA"/>
+                                                <constraint firstAttribute="trailing" secondItem="OLt-Au-DrE" secondAttribute="trailing" id="gMB-FG-KRR"/>
+                                                <constraint firstItem="OLt-Au-DrE" firstAttribute="centerX" secondItem="IbM-cp-eSm" secondAttribute="centerX" id="iBc-YL-U8V"/>
+                                                <constraint firstItem="OLt-Au-DrE" firstAttribute="centerY" secondItem="eoI-iR-Gcf" secondAttribute="centerY" id="qN9-ei-8Gq"/>
+                                                <constraint firstItem="OLt-Au-DrE" firstAttribute="leading" secondItem="eoI-iR-Gcf" secondAttribute="leading" id="unI-r2-fRg"/>
+                                                <constraint firstItem="OLt-Au-DrE" firstAttribute="top" secondItem="eoI-iR-Gcf" secondAttribute="top" id="xLD-jA-KBT"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="uZb-HS-PzC">
+                            <tableViewSection id="uZb-HS-PzC" userLabel="Rating">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ckB-91-mNv">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecipeRating" id="ckB-91-mNv">
                                         <rect key="frame" x="0.0" y="124" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ckB-91-mNv" id="HBM-ey-TJD">
@@ -151,94 +199,142 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="nvq-Cc-gML">
+                            <tableViewSection id="nvq-Cc-gML" userLabel="Title">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="49" id="QeM-LV-H24">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecipeName" rowHeight="49" id="QeM-LV-H24" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="168" width="375" height="49"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="QeM-LV-H24" id="CSj-SY-4VS">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="48.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Recipe Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p78-l6-7Gy">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Recipe Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="p78-l6-7Gy" customClass="InputTextField" customModule="BakersDozen" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="9" width="343" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="p78-l6-7Gy" secondAttribute="trailing" constant="16" id="HLM-Fe-rHq"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="p78-l6-7Gy" secondAttribute="bottom" constant="-1" id="hX7-rq-CFQ"/>
+                                                <constraint firstItem="p78-l6-7Gy" firstAttribute="centerY" secondItem="CSj-SY-4VS" secondAttribute="centerY" id="piG-Ku-Nw1"/>
+                                                <constraint firstItem="p78-l6-7Gy" firstAttribute="leading" secondItem="CSj-SY-4VS" secondAttribute="leading" constant="16" id="sju-DI-PdJ"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="1hZ-rm-s9f">
-                                <cells/>
-                            </tableViewSection>
                             <tableViewSection headerTitle="Ingredients" id="JNu-3A-tth">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="R6H-L6-72b">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Ingredient" id="R6H-L6-72b" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="245" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="R6H-L6-72b" id="BKo-40-CnA">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Ingredient" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NNd-Iu-Sry">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Ingredient" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NNd-Iu-Sry" customClass="InputTextField" customModule="BakersDozen" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="6" width="343" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="NNd-Iu-Sry" secondAttribute="trailing" constant="16" id="fmd-Ve-P9H"/>
+                                                <constraint firstItem="NNd-Iu-Sry" firstAttribute="leading" secondItem="BKo-40-CnA" secondAttribute="leading" constant="16" id="oTk-pC-uAb"/>
+                                                <constraint firstItem="NNd-Iu-Sry" firstAttribute="centerY" secondItem="BKo-40-CnA" secondAttribute="centerY" id="rrY-GP-tKD"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="NNd-Iu-Sry" secondAttribute="bottom" constant="-3" id="zGS-c7-yE8"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Directions" id="IiH-xv-JeO">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="81g-ix-N4e">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Direction" id="81g-ix-N4e" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="317" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="81g-ix-N4e" id="Fhf-62-Wqn">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cy8-8j-dhk">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cy8-8j-dhk">
                                                     <rect key="frame" x="319" y="2" width="40" height="40"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Direction" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Jf-zr-UjX">
-                                                    <rect key="frame" x="16" y="7" width="302" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Direction" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Jf-zr-UjX" customClass="InputTextField" customModule="BakersDozen" customModuleProvider="target">
+                                                    <rect key="frame" x="16" y="9" width="302" height="26"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="cy8-8j-dhk" firstAttribute="top" secondItem="Fhf-62-Wqn" secondAttribute="topMargin" constant="-9" id="6n4-dI-88F"/>
+                                                <constraint firstItem="cy8-8j-dhk" firstAttribute="centerY" secondItem="Fhf-62-Wqn" secondAttribute="centerY" id="Eci-y8-x7c"/>
+                                                <constraint firstItem="6Jf-zr-UjX" firstAttribute="leading" secondItem="Fhf-62-Wqn" secondAttribute="leading" constant="16" id="JDV-On-hYO"/>
+                                                <constraint firstAttribute="trailing" secondItem="6Jf-zr-UjX" secondAttribute="trailing" constant="57" id="Oef-ma-59e"/>
+                                                <constraint firstAttribute="trailing" secondItem="cy8-8j-dhk" secondAttribute="trailing" constant="16" id="eeK-BX-C7p"/>
+                                                <constraint firstItem="cy8-8j-dhk" firstAttribute="centerY" secondItem="6Jf-zr-UjX" secondAttribute="centerY" id="foU-Xp-I9b"/>
+                                                <constraint firstItem="cy8-8j-dhk" firstAttribute="leading" secondItem="6Jf-zr-UjX" secondAttribute="trailing" constant="1" id="yd8-gm-c3O"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
                             <tableViewSection headerTitle="Notes" id="wi7-8d-G8F">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="nDw-bb-q6c">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Note" id="nDw-bb-q6c" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="389" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="nDw-bb-q6c" id="NDn-1V-A49">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Note" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qv5-JT-WkA">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Note" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qv5-JT-WkA" customClass="InputTextField" customModule="BakersDozen" customModuleProvider="target">
                                                     <rect key="frame" x="16" y="6" width="343" height="30"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qv5-JT-WkA" firstAttribute="centerY" secondItem="NDn-1V-A49" secondAttribute="centerY" id="0cU-mj-AKb"/>
+                                                <constraint firstAttribute="bottomMargin" secondItem="qv5-JT-WkA" secondAttribute="bottom" constant="-3" id="UGN-EO-IZw"/>
+                                                <constraint firstItem="qv5-JT-WkA" firstAttribute="leading" secondItem="NDn-1V-A49" secondAttribute="leading" constant="16" id="lPe-Fk-upj"/>
+                                                <constraint firstAttribute="trailing" secondItem="qv5-JT-WkA" secondAttribute="trailing" constant="16" id="o7j-WY-FUK"/>
+                                            </constraints>
                                         </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                            <tableViewSection id="lMe-nc-jTq">
+                                <cells>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zoY-xw-3Tg" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="433" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zoY-xw-3Tg" id="JP5-Ow-Ddz">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3vT-sR-42y">
+                                                    <rect key="frame" x="0.0" y="-1" width="375" height="44"/>
+                                                    <state key="normal" title="Delete Recipe"/>
+                                                    <connections>
+                                                        <action selector="DeleteRecipe:" destination="qKn-Uc-7Hn" eventType="touchUpInside" id="ll2-Qt-KTP"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="3vT-sR-42y" firstAttribute="leading" secondItem="JP5-Ow-Ddz" secondAttribute="leading" id="1Ws-a8-doV"/>
+                                                <constraint firstItem="3vT-sR-42y" firstAttribute="centerY" secondItem="JP5-Ow-Ddz" secondAttribute="centerY" id="RUw-j3-NhN"/>
+                                                <constraint firstItem="3vT-sR-42y" firstAttribute="top" secondItem="JP5-Ow-Ddz" secondAttribute="topMargin" constant="-12" id="kg9-ia-eLO"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <constraints>
+                                            <constraint firstItem="3vT-sR-42y" firstAttribute="centerX" secondItem="zoY-xw-3Tg" secondAttribute="centerX" id="eYN-Wb-2sU"/>
+                                        </constraints>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -252,6 +348,14 @@
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="R1G-C2-CVv"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="save" id="qli-wb-pf8"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="directionTextField" destination="6Jf-zr-UjX" id="pwD-8a-PZQ"/>
+                        <outlet property="imageView" destination="OLt-Au-DrE" id="0gU-5k-xfU"/>
+                        <outlet property="ingredientTextField" destination="NNd-Iu-Sry" id="7Zh-XK-7yU"/>
+                        <outlet property="nameTextField" destination="p78-l6-7Gy" id="5qw-0i-QtF"/>
+                        <outlet property="noteTextField" destination="qv5-JT-WkA" id="vMb-13-LIS"/>
+                        <outlet property="tableView" destination="RaF-D9-yh8" id="ofn-67-2Tl"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="awD-hf-SCY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

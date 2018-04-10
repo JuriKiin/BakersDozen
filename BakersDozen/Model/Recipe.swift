@@ -19,6 +19,8 @@ class Recipe {
             }
         }
     }
+    var _id: String
+    
     var ingredients:[String]
     var directions:[String]
     var notes:[String]
@@ -29,6 +31,7 @@ class Recipe {
         ingredients = []
         directions = []
         notes = []
+        _id = ""
     }
     
     init(title: String, rating: Int, ingredients: [String], directions: [String], notes: [String]){
@@ -37,6 +40,7 @@ class Recipe {
         self.ingredients = ingredients
         self.directions = directions
         self.notes = notes
+        self._id = ""
     }
     
 }

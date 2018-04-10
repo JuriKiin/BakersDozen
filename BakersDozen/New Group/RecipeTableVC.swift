@@ -9,15 +9,10 @@
 import UIKit
 
 class RecipeTableVC: UITableViewController {
-
-    var recipes: [Recipe]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let testCell = Recipe(title: "Test1", rating: 0, ingredients: [], directions: [], notes: [])
-        
-        RecipeData.sharedData.recipes.append(testCell)
+        print(RecipeData.sharedData.recipes.count)
     }
     
     func LoadRecipes() -> [Recipe] {
@@ -31,7 +26,6 @@ class RecipeTableVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return RecipeData.sharedData.recipes.count
     }
     
