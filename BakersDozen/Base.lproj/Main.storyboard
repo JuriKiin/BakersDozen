@@ -78,27 +78,11 @@
                                                     <segue destination="bDr-Fl-2gu" kind="show" id="PxN-J2-c8o"/>
                                                 </connections>
                                             </button>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4ES-Cm-job">
-                                                <rect key="frame" x="8" y="169" width="160.5" height="27.5"/>
-                                                <attributedString key="attributedText">
-                                                    <fragment content="Blueberry Muffins">
-                                                        <attributes>
-                                                            <font key="NSFont" size="20" name="AvenirNext-Regular"/>
-                                                            <paragraphStyle key="NSParagraphStyle" alignment="left" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
-                                                            <integer key="NSUnderline" value="1"/>
-                                                        </attributes>
-                                                    </fragment>
-                                                </attributedString>
-                                                <nil key="highlightedColor"/>
-                                            </label>
                                         </subviews>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="4ES-Cm-job" firstAttribute="top" secondItem="PHq-hm-YKU" secondAttribute="bottom" constant="23" id="CuM-PA-iRJ"/>
-                                            <constraint firstItem="4ES-Cm-job" firstAttribute="leading" secondItem="BDF-rV-d2A" secondAttribute="leading" constant="8" id="JVD-qV-NI4"/>
                                             <constraint firstAttribute="bottom" secondItem="PHq-hm-YKU" secondAttribute="bottom" constant="457" id="SsZ-lL-QhS"/>
                                             <constraint firstItem="PHq-hm-YKU" firstAttribute="top" secondItem="BDF-rV-d2A" secondAttribute="top" constant="96" id="cBA-Ml-H2A"/>
-                                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="4ES-Cm-job" secondAttribute="trailing" id="dJ6-ej-gQz"/>
                                             <constraint firstItem="PHq-hm-YKU" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="BDF-rV-d2A" secondAttribute="leading" constant="20" symbolic="YES" id="g2b-67-jyE"/>
                                             <constraint firstAttribute="trailing" secondItem="PHq-hm-YKU" secondAttribute="trailing" constant="15" id="sll-Fp-CKZ"/>
                                         </constraints>
@@ -123,6 +107,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xwI-Xu-tid"/>
                     </view>
+                    <connections>
+                        <outlet property="imageView" destination="bMe-UR-6iC" id="soS-TJ-l4O"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bgf-wE-Lax" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

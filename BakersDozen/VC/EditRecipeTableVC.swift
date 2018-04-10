@@ -8,19 +8,19 @@
 
 import UIKit
 
-class EditRecipeTableVC: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate,
-UINavigationControllerDelegate {
+class EditRecipeTableVC: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var recipe = Recipe()
     
+    let timerOnImage = UIImage(named: "timerOn")
+    let timerOffImage = UIImage(named: "timerOff")
+    var isTimerOn: Bool = false
     
     @IBOutlet var nameTextField: InputTextField!
     @IBOutlet var ingredientTextField: InputTextField!
     @IBOutlet var directionTextField: InputTextField!
     @IBOutlet var noteTextField: InputTextField!
-    
     @IBOutlet var recipeTable: UITableView!
-    
     @IBOutlet var imageView: UIImageView!
     
     override func viewDidLoad() {
@@ -33,6 +33,10 @@ UINavigationControllerDelegate {
         ingredientTextField.delegate = self
         directionTextField.delegate = self
         noteTextField.delegate = self
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tapGesture)
         
         
         //Check to see if we get passed data in (we want to edit a recipe not add one)
@@ -62,6 +66,15 @@ UINavigationControllerDelegate {
     }
     
     //helper functions
+    
+    @objc func ToggleTimer() {
+        if isTimerOn {
+            imageView.image = timerOnImage
+        } else {
+            imageView.image = timerOffImage
+        }
+        isTimerOn = !isTimerOn
+    }
     
     func AddCellOf(type: String, data: String, cell: InputCell) {
         switch type {
