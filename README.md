@@ -4,6 +4,8 @@ Baker’s Dozen is a recipe management application designed for people who enjoy
 Jüri Kiin
 
 Features:
+- Switch between views
+- Structure in place for adding/viewing recipes
 
 ##Checkpoint 1:
 
