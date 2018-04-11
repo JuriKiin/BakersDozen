@@ -34,7 +34,9 @@ class RecipeTableVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print(RecipeData.sharedData.recipes)
+        for i in 0 ..< RecipeData.sharedData.recipes.count {
+            print(RecipeData.sharedData.recipes[i].title)
+        }
         print(RecipeData.sharedData.recipes.count)
         return RecipeData.sharedData.recipes.count
     }

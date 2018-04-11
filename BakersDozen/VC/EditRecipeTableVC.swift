@@ -28,6 +28,22 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     //Saves recipe to RecipeData singleton.
     @IBAction func SaveRecipe(_ sender: Any) {
+        
+        for cell in tableView.visibleCells{
+            let path = tableView.indexPath(for: cell)
+            
+            switch path?.section {
+            case 2:
+                let nameCell = cell as! NameCell
+                recipe.title = nameCell.nameTextField.text!
+            case 3:
+                let ingredientCell = cell as! IngredientCell
+                recipe.ingredients.append(ingredientCell.ingredientField.text!)
+            default:
+                break
+            }
+            
+        }
         recipe.GenerateNewId()
         RecipeData.sharedData.recipes.append(recipe)
         //Load MainView.
@@ -52,6 +68,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         
         editTableView.delegate = self
         
+        editTableView.register(UINib(nibName: "Name", bundle: nil), forCellReuseIdentifier: "Name")
         editTableView.register(UINib(nibName: "Ingredient", bundle: nil), forCellReuseIdentifier: "Ingredient")
         editTableView.register(UINib(nibName: "Direction", bundle: nil), forCellReuseIdentifier: "Direction")
         editTableView.register(UINib(nibName: "Image", bundle: nil), forCellReuseIdentifier: "Image")
@@ -73,7 +90,14 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         }
         editTableView?.reloadData()
         print("Adding: \(data) to: \(type)")
+        print("Ingredient Count: \(recipe.ingredients.count)")
     }
+    
+    func ChangeRecipeTitle(name: String) {
+        print("Changing title to: \(name)")
+        recipe.title = name
+    }
+    
     
     func AddDirection(data: String, ingredients: [String], hasTimer: Bool) {
         let direction = Direction(data: data, hasTimer: hasTimer, ingredients: ingredients)
@@ -138,9 +162,11 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             return cell
             /*
         case 1:
-            
+                */
         case 2:
-    */
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "Name", for: indexPath) as! NameCell
+            cell.nameTextField.placeholder = "Enter Recipe Name"
+            return cell
         case 3:
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Ingredient", for: indexPath) as! IngredientCell
             if recipe.ingredients.count <= 0 {
