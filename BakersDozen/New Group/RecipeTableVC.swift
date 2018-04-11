@@ -10,8 +10,16 @@ import UIKit
 
 class RecipeTableVC: UITableViewController {
     
+    @IBOutlet var recipeTable: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        recipeTable.delegate = self
+        recipeTable.reloadData()
+    }
+    
+    @IBAction func unwindWithCancelTapped(segue: UIStoryboardSegue) {
+        recipeTable.reloadData()
         print(RecipeData.sharedData.recipes.count)
     }
     
@@ -26,12 +34,15 @@ class RecipeTableVC: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print(RecipeData.sharedData.recipes)
+        print(RecipeData.sharedData.recipes.count)
         return RecipeData.sharedData.recipes.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath)
         cell.textLabel?.text = RecipeData.sharedData.recipes[indexPath.row].title
+        cell.backgroundColor = RecipeData.sharedData.recipes[indexPath.row].color
         return cell
     }
     

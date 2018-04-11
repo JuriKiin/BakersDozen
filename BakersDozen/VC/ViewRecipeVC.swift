@@ -35,26 +35,46 @@ class ViewRecipeVC: UIViewController {
         FillContent(name: "Notes", with: recipe.notes)
     }
     
-    func FillContent(name: String, with: [String]) {
+    func FillContent(name: String, with: [Any]) {
         //Create header
         let headerLabel = UILabel()
         headerLabel.text = name
         headerLabel.font = headerLabel.font.withSize(headerFontSize)
         
         //Set headerPosition
-        headerLabel.center = CGPoint(x: 10, y: lastLabel.center.y + sectionPadding)
+        if lastLabel == nil {
+            headerLabel.center = CGPoint(x: 10, y: imageView.frame.maxY + sectionPadding)
+        } else {
+            headerLabel.center = CGPoint(x: 10, y: lastLabel.center.y + sectionPadding)
+        }
+        lastLabel = headerLabel
         view.addSubview(headerLabel)
         
-        //loop through array and create list with array data
-        for i in 0 ..< with.count {
-            let dataLabel = UILabel()
-            //Format string (possibly attributed string formatting HERE.
-            dataLabel.text = with[i]
-            dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
-            dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
-            lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
-            view.addSubview(dataLabel)
+        if name == "Directions" {
+            let directions = with as! [Direction]
+            for i in 0 ..< with.count {
+                let dataLabel = UILabel()
+                //Format string (possibly attributed string formatting HERE.
+                dataLabel.text = directions[i].data
+                dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
+                dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
+                lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
+                view.addSubview(dataLabel)
+            }
+        } else {
+            let content = with as! [String]
+            //loop through array and create list with array data
+            for i in 0 ..< with.count {
+                let dataLabel = UILabel()
+                //Format string (possibly attributed string formatting HERE.
+                dataLabel.text = content[i]
+                dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
+                dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
+                lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
+                view.addSubview(dataLabel)
+            }
         }
+
     }
 
 }

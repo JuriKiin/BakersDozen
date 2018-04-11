@@ -28,7 +28,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <segue destination="1Ug-KU-KPr" kind="show" id="SJh-Mx-1u4"/>
+                                    <segue destination="1Ug-KU-KPr" kind="show" id="MwN-A5-RL3"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -41,10 +41,13 @@
                         <barButtonItem key="leftBarButtonItem" title="Item" systemItem="edit" id="goZ-XR-oem"/>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hlY-LD-iNI">
                             <connections>
-                                <segue destination="GHi-Cs-JAV" kind="showDetail" id="bem-SM-aSQ"/>
+                                <segue destination="qKn-Uc-7Hn" kind="show" identifier="MainView" id="XHw-da-zvy"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <connections>
+                        <outlet property="recipeTable" destination="8t1-VW-iMG" id="0k7-Mg-Wfo"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0p1-Dg-M3i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -107,13 +110,16 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xwI-Xu-tid"/>
                     </view>
+                    <navigationItem key="navigationItem" id="BAe-Re-2cX">
+                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Mhr-Yp-ZEk"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="imageView" destination="bMe-UR-6iC" id="soS-TJ-l4O"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bgf-wE-Lax" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="253.59999999999999" y="720.08995502248877"/>
+            <point key="canvasLocation" x="255" y="707"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="g7Z-mR-g6K">
@@ -128,7 +134,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u1B-bL-vMc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="972" y="720"/>
+            <point key="canvasLocation" x="972" y="707"/>
         </scene>
         <!--New Recipe-->
         <scene sceneID="4zf-BL-kcB">
@@ -141,7 +147,7 @@
                         <sections>
                             <tableViewSection id="zkZ-I7-CTH" userLabel="Image">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhotoSelect" rowHeight="124" id="URb-bE-MgY">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="PhotoSelect" rowHeight="124" id="URb-bE-MgY" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="124"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="URb-bE-MgY" id="eoI-iR-Gcf">
@@ -176,7 +182,7 @@
                             </tableViewSection>
                             <tableViewSection id="uZb-HS-PzC" userLabel="Rating">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecipeRating" id="ckB-91-mNv">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecipeRating" id="ckB-91-mNv" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="124" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ckB-91-mNv" id="HBM-ey-TJD">
@@ -221,7 +227,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Ingredient" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NNd-Iu-Sry" customClass="InputTextField" customModule="BakersDozen" customModuleProvider="target">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Ingredient" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="NNd-Iu-Sry">
                                                     <rect key="frame" x="16" y="6" width="343" height="30"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
@@ -250,7 +256,7 @@
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="cy8-8j-dhk">
                                                     <rect key="frame" x="319" y="2" width="40" height="40"/>
                                                 </imageView>
-                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Direction" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Jf-zr-UjX" customClass="InputTextField" customModule="BakersDozen" customModuleProvider="target">
+                                                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Direction" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6Jf-zr-UjX">
                                                     <rect key="frame" x="16" y="9" width="302" height="26"/>
                                                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="22"/>
@@ -296,9 +302,9 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="lMe-nc-jTq">
+                            <tableViewSection id="lMe-nc-jTq" userLabel="Delete">
                                 <cells>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="zoY-xw-3Tg" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Delete" id="zoY-xw-3Tg" customClass="InputCell" customModule="BakersDozen" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="433" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="zoY-xw-3Tg" id="JP5-Ow-Ddz">
@@ -332,26 +338,35 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="New Recipe" id="xWh-zN-e1t">
-                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="R1G-C2-CVv"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="qli-wb-pf8"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="R1G-C2-CVv">
+                            <connections>
+                                <segue destination="gmb-vm-yE3" kind="unwind" unwindAction="unwindWithCancelTappedWithSegue:" id="Lza-6z-V2f"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="qli-wb-pf8">
+                            <connections>
+                                <action selector="SaveRecipe:" destination="qKn-Uc-7Hn" id="gJh-ck-ni0"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="directionTextField" destination="6Jf-zr-UjX" id="pwD-8a-PZQ"/>
+                        <outlet property="editTableView" destination="RaF-D9-yh8" id="iCm-Na-kAb"/>
                         <outlet property="imageView" destination="OLt-Au-DrE" id="0gU-5k-xfU"/>
                         <outlet property="ingredientTextField" destination="NNd-Iu-Sry" id="7Zh-XK-7yU"/>
                         <outlet property="nameTextField" destination="p78-l6-7Gy" id="5qw-0i-QtF"/>
                         <outlet property="noteTextField" destination="qv5-JT-WkA" id="vMb-13-LIS"/>
-                        <outlet property="tableView" destination="RaF-D9-yh8" id="ofn-67-2Tl"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="awD-hf-SCY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="gmb-vm-yE3" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1696.8" y="-40.029985007496258"/>
+            <point key="canvasLocation" x="972" y="-40"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PG7-tq-6PT">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IAE-Uh-tXN" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="MainView" automaticallyAdjustsScrollViewInsets="NO" id="IAE-Uh-tXN" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="tu4-ci-jVj">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -365,24 +380,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9PU-k4-GC0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-460" y="-40"/>
-        </scene>
-        <!--New Recipe-->
-        <scene sceneID="jrg-Ac-0ST">
-            <objects>
-                <navigationController title="New Recipe" automaticallyAdjustsScrollViewInsets="NO" id="GHi-Cs-JAV" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cIT-3P-Zde">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="qKn-Uc-7Hn" kind="relationship" relationship="rootViewController" id="qnS-Nz-Feq"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mTB-yL-o4Y" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="972" y="-40"/>
         </scene>
     </scenes>
 </document>

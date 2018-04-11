@@ -8,45 +8,87 @@
 
 import UIKit
 
-class EditRecipeTableVC: UITableViewController, UITextFieldDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
+   // var recipe: Recipe!
     var recipe = Recipe()
+    var imageCell: UIImageView!
     
-    let timerOnImage = UIImage(named: "timerOn")
-    let timerOffImage = UIImage(named: "timerOff")
-    var isTimerOn: Bool = false
-    
-    @IBOutlet var nameTextField: InputTextField!
-    @IBOutlet var ingredientTextField: InputTextField!
-    @IBOutlet var directionTextField: InputTextField!
-    @IBOutlet var noteTextField: InputTextField!
+    //IBOutlets
+    @IBOutlet var editTableView: UITableView!
+    @IBOutlet var nameTextField: UITextField!
+    @IBOutlet var ingredientTextField: UITextField!
+    @IBOutlet var directionTextField: UITextField!
+    @IBOutlet var noteTextField: UITextField!
     @IBOutlet var recipeTable: UITableView!
     @IBOutlet var imageView: UIImageView!
+    
+    
+    //IBActions
+    
+    //Saves recipe to RecipeData singleton.
+    @IBAction func SaveRecipe(_ sender: Any) {
+        recipe.GenerateNewId()
+        RecipeData.sharedData.recipes.append(recipe)
+        //Load MainView.
+    }
+    
+    
+    //Delete the recipe if we are editing the recipe.
+    @IBAction func DeleteRecipe(_ sender: Any) {
+        
+        //If we are editing a recipe (not adding) {
+        for i in 0 ..< RecipeData.sharedData.recipes.count {
+            if RecipeData.sharedData.recipes[i]._id == recipe._id {
+                RecipeData.sharedData.recipes.remove(at: i)
+            }
+        }
+        
+        //Either way, load the mainView.
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        recipeTable = UITableView()
+        editTableView.delegate = self
         
-        recipeTable.delegate = self
-        nameTextField.delegate = self
-        ingredientTextField.delegate = self
-        directionTextField.delegate = self
-        noteTextField.delegate = self
-        
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
-        imageView.isUserInteractionEnabled = true
-        imageView.addGestureRecognizer(tapGesture)
-        
+        editTableView.register(UINib(nibName: "Ingredient", bundle: nil), forCellReuseIdentifier: "Ingredient")
+        editTableView.register(UINib(nibName: "Direction", bundle: nil), forCellReuseIdentifier: "Direction")
+        editTableView.register(UINib(nibName: "Image", bundle: nil), forCellReuseIdentifier: "Image")
         
         //Check to see if we get passed data in (we want to edit a recipe not add one)
         //If so, make sure to change the barItemButton to Save not Add.
         
     }
     
-    //IBActions
+    //HELPER FUNCTIONS.
+    func AddCellOf(type: String, data: String) {
+        switch type {
+        case "Ingredient":
+            recipe.ingredients.insert(data, at: 0)
+        case "Note":
+            recipe.notes.insert(data, at: 0)
+        default:
+            return
+        }
+        editTableView?.reloadData()
+        print("Adding: \(data) to: \(type)")
+    }
     
-    @IBAction func ChoosePhotoFromLibrary(_ sender: Any) {
+    func AddDirection(data: String, ingredients: [String], hasTimer: Bool) {
+        let direction = Direction(data: data, hasTimer: hasTimer, ingredients: ingredients)
+        recipe.directions.insert(direction, at: 0)
+        editTableView?.reloadData()
+    }
+    
+    //Image select functions
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
+        imageCell.image = image
+        dismiss(animated:true, completion: nil)
+    }
+    
+    @objc func ChoosePhotoFromLibrary(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -54,58 +96,6 @@ class EditRecipeTableVC: UITableViewController, UITextFieldDelegate, UIImagePick
             imagePicker.allowsEditing = true
             self.present(imagePicker, animated: true, completion: nil)
         }
-    }
-    
-    //Delete the recipe if we are editing the recipe.
-    @IBAction func DeleteRecipe(_ sender: Any) {
-        for i in 0 ..< RecipeData.sharedData.recipes.count {
-            if RecipeData.sharedData.recipes[i]._id == recipe._id {
-                RecipeData.sharedData.recipes.remove(at: i)
-            }
-        }
-    }
-    
-    //helper functions
-    
-    @objc func ToggleTimer() {
-        if isTimerOn {
-            imageView.image = timerOnImage
-        } else {
-            imageView.image = timerOffImage
-        }
-        isTimerOn = !isTimerOn
-    }
-    
-    func AddCellOf(type: String, data: String, cell: InputCell) {
-        switch type {
-        case "Ingredient":
-            recipe.ingredients.insert(data, at: 0)
-        case "Direction":
-            recipe.directions.insert(data, at: 0)
-        case "Note":
-            recipe.notes.insert(data, at: 0)
-        default:
-            return
-        }
-        print("Adding: \(data) to: \(type)")
-    }
-    
-    func SaveRecipe() {
-        recipe._id = GenerateNewId()
-        RecipeData.sharedData.recipes.append(recipe)
-    }
-    
-    //Generates a new ID for each recipe
-    func GenerateNewId() -> String {
-        return NSUUID().uuidString
-    }
-    
-    //Image select functions
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        imageView.image = image
-        dismiss(animated:true, completion: nil)
     }
     
     //UITableView Delegate
@@ -128,47 +118,58 @@ class EditRecipeTableVC: UITableViewController, UITextFieldDelegate, UIImagePick
             return recipe.directions.count + 1
         case 5:
             return recipe.notes.count + 1
+        case 6:
+            return 1
         default:
             return 1
         }
     }
     
-//    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        var cell = UITableViewCell()
-//        
-//        switch indexPath.section {
-//        case 0:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "PhotoSelect", for: indexPath) as! InputCell
-//        case 1:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "RecipeRating", for: indexPath) as! InputCell
-//        case 2:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "RecipeName", for: indexPath) as! InputCell
-//        case 3:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "RecipeIngredients", for: indexPath) as! InputCell
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    
+        switch indexPath.section {
+
+        case 0:
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath) as! ImageCell
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ChoosePhotoFromLibrary(_:)))
+            cell.isUserInteractionEnabled = true
+            cell.addGestureRecognizer(tapGesture)
+            imageCell = cell.photoImage
+            return cell
+            /*
+        case 1:
+            
+        case 2:
+    */
+        case 3:
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "Ingredient", for: indexPath) as! IngredientCell
+            if recipe.ingredients.count <= 0 {
+                cell.ingredientField.placeholder = "Enter Ingredient"
+            } else {
+                 cell.ingredientField.placeholder = recipe.ingredients[indexPath.row]
+            }
+           return cell
 //        case 4:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "RecipeDirections", for: indexPath) as! InputCell
-//        case 5:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "RecipeNotes", for: indexPath) as! InputCell
-//        default:
-//            cell = tableView.dequeueReusableCell(withIdentifier: "RecipeName", for: indexPath) as! InputCell
-//        }
-//        return cell
-//    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let parent = textField.superview
-        let parentCell = parent?.superview as! InputCell
-        AddCellOf(type: parentCell.reuseIdentifier!, data: textField.text ?? "", cell: parentCell)
-        textField.resignFirstResponder()
-        return true
+//            let cell = tableView.dequeueReusableCell(withIdentifier: "Direction", for: indexPath) as! DirectionCell
+//            cell.ingredients = recipe.ingredients
+//            return cell
+    /*
+        case 5:
+            
+        case 6:
+    */
+        default:
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "Ingredient", for: indexPath)
+            cell.textLabel?.text = "Something went wrong."
+            return cell
+        }
     }
-    
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
+            editTableView.deleteRows(at: [indexPath], with: .fade)
         } else if editingStyle == .insert {
             // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
         }    
