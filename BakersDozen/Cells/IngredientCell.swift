@@ -8,12 +8,16 @@
 
 import UIKit
 
+protocol IngredientCellDelegate {
+    func ingredientCell (_ ingredientCell: IngredientCell, didAddIngredient ingredient: String)
+}
+
 class IngredientCell: UITableViewCell, UITextFieldDelegate {
 
     
     @IBOutlet var ingredientField: UITextField!
+    var delegate: IngredientCellDelegate?
     
-    let recipe = EditRecipeTableVC()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,7 +27,7 @@ class IngredientCell: UITableViewCell, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if ingredientField.text != "" {
-            recipe.AddCellOf(type: "Ingredient", data: ingredientField.text ?? "")
+            delegate?.ingredientCell(self, didAddIngredient: ingredientField.text!)
         }
         return true
     }

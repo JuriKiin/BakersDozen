@@ -8,21 +8,25 @@
 
 import UIKit
 
-class DirectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionViewDataSource {
-    
 
+protocol DirectionCellDelegate {
+    func directionCell (_ directionCell: DirectionCell, didAddDirection direction: Direction)
+}
+
+class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
+    
     @IBOutlet var directionTextField: UITextField!
     @IBOutlet var ingredientView: UICollectionView!
     @IBOutlet var timerImage: UIImageView!
     
     let timerOnImage = UIImage(named: "timerOn")
     let timerOffImage = UIImage(named: "timerOff")
-    
     var hasTimer: Bool = false
     
+    var delegate: DirectionCellDelegate?
     
     var ingredients: [String] = []
-    let recipe = EditRecipeTableVC()
+    var connectedIngredients: [String] = []
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ingredients.count
@@ -55,10 +59,12 @@ class DirectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        directionTextField.returnKeyType = .done
+        ingredientView.register(UINib(nibName: "ingredientCell", bundle: nil), forCellWithReuseIdentifier: "ingredientCell")
         
         ingredientView.delegate = self
         ingredientView.dataSource = self
+        directionTextField.delegate = self
+        directionTextField.returnKeyType = .done
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
         timerImage?.isUserInteractionEnabled = true
@@ -76,7 +82,11 @@ class DirectionCell: UITableViewCell, UICollectionViewDelegate, UICollectionView
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if directionTextField.text != "" {
-            recipe.AddDirection(data: directionTextField.text ?? "", ingredients: ingredients, hasTimer: hasTimer)
+            let newDirection = Direction()
+            newDirection.data = directionTextField.text!
+            newDirection.hasTimer = hasTimer
+            newDirection.ingredients = connectedIngredients
+            delegate?.directionCell(self, didAddDirection: newDirection)
         }
         return true
     }

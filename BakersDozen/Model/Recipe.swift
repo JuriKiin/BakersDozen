@@ -40,24 +40,24 @@ class Recipe {
     var _id: String
     var ingredients:[String]
     var directions:[Direction]
-    var notes:[String]
+    var notes:String
     
     //App vars (for displaying recipe)
     var color: UIColor
     
     //Default init.
     init(){
-        title = "Recipe"
+        title = ""
         rating = 0
         ingredients = []
         directions = []
-        notes = []
+        notes = ""
         _id = ""
         color = .white
     }
     
     //Helper init
-    init(title: String, rating: Int, ingredients: [String], directions: [Direction], notes: [String]){
+    init(title: String, rating: Int, ingredients: [String], directions: [Direction], notes: String){
         self.title = title
         self.rating = rating
         self.ingredients = ingredients

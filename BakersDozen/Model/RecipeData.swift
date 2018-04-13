@@ -15,7 +15,7 @@ public class RecipeData {
     var recipes = [Recipe]()
     
     private init(){
-        let testCell = Recipe(title: "Test1", rating: 0, ingredients: [], directions: [], notes: [])
+        let testCell = Recipe(title: "Test1", rating: 0, ingredients: [], directions: [], notes: "")
         recipes.append(testCell)
     }
     

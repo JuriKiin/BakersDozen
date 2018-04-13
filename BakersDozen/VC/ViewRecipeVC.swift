@@ -24,15 +24,13 @@ class ViewRecipeVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        //Replace with the object we're passed from the MainView.
-        recipe = Recipe()
         //Based on rating, disable the correct number of stars.
         
         //Load content
-        imageView.image = recipe.image
+        imageView.image = recipe?.image
         FillContent(name: "Ingredients", with: recipe.ingredients)
         FillContent(name: "Directions", with: recipe.directions)
-        FillContent(name: "Notes", with: recipe.notes)
+        AddNotes(notes: recipe.notes)
     }
     
     func FillContent(name: String, with: [Any]) {
@@ -74,7 +72,29 @@ class ViewRecipeVC: UIViewController {
                 view.addSubview(dataLabel)
             }
         }
-
     }
-
+    
+    func AddNotes(notes: String) {
+        let headerLabel = UILabel()
+        headerLabel.text = "Notes"
+        headerLabel.font = headerLabel.font.withSize(headerFontSize)
+        
+        //Set headerPosition
+        if lastLabel == nil {
+            headerLabel.center = CGPoint(x: 10, y: imageView.frame.maxY + sectionPadding)
+        } else {
+            headerLabel.center = CGPoint(x: 10, y: lastLabel.center.y + sectionPadding)
+        }
+        lastLabel = headerLabel
+        
+        let noteText = UITextView()
+        noteText.text = notes
+        
+        noteText.center = CGPoint(x: 10, y: lastLabel.frame.maxY + sectionPadding)
+        
+        view.addSubview(headerLabel)
+        view.addSubview(noteText)
+    }
+    
+    //End Of Class
 }
