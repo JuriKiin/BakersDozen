@@ -116,7 +116,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Recipe" id="BAe-Re-2cX">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="bnS-dY-pOf"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Mhr-Yp-ZEk"/>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="Mhr-Yp-ZEk"/>
                     </navigationItem>
                     <connections>
                         <outlet property="contentView" destination="BDF-rV-d2A" id="Vj4-ur-lYN"/>

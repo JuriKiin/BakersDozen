@@ -61,18 +61,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         present(navController, animated: true)
     }
     
-    
-    //Delete the recipe if we are editing the recipe.
-    @IBAction func DeleteRecipe(_ sender: Any) {
-        //If we are editing a recipe (not adding) {
-        if isEditing {
-            RecipeData.sharedData.recipes.remove(at: recipeIndexInMaster)
-        } else {
-            return
-        }
-        //Either way, load the main view.
-    }
-    
 //View Did Load
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -86,6 +74,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         editTableView.register(UINib(nibName: "Direction", bundle: nil), forCellReuseIdentifier: "Direction")
         editTableView.register(UINib(nibName: "Image", bundle: nil), forCellReuseIdentifier: "Image")
         editTableView.register(UINib(nibName: "Note", bundle: nil), forCellReuseIdentifier: "Note")
+        editTableView.register(UINib(nibName: "DeleteCell", bundle: nil), forCellReuseIdentifier: "Delete")
         editTableView.register(UINib(nibName: "DefaultCell", bundle: nil), forCellReuseIdentifier: "DefaultCell")
     }
     
@@ -233,9 +222,10 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.textArea.text = recipe.notes
             }
             return cell
-    /*
         case 6:
-    */
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "Delete", for: indexPath) as! DeleteCell
+            cell.delegate = self
+            return cell
         default:    //Default cell.
             let cell = editTableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             cell.textLabel?.text = "Something Went wrong"
@@ -284,7 +274,19 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     }
 }
 
-extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate {
+extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate, DeleteCellDelegate {
+    
+    func deleteCell(_ cell: DeleteCell) {
+        if isEditing {
+            RecipeData.sharedData.recipes.remove(at: recipeIndexInMaster)
+        } else {
+            //Load MainView.
+            let navController = storyboard?.instantiateViewController(withIdentifier: "MainView") as! UINavigationController
+            navController.modalPresentationStyle = .fullScreen
+            present(navController, animated: true)
+        }
+    }
+    
     func noteCell(_ noteCell: NoteCell, with text: String) {
         noteCell.textArea.endEditing(true)
         EditNote(note: text)
