@@ -17,14 +17,16 @@ class ViewRecipeVC: UIViewController {
     let verticalPadding: CGFloat = 15
     let sectionPadding: CGFloat = 20
     var lastLabel: UILabel!
-    @IBOutlet var pageTitle: UINavigationItem!
+    var boundSize: CGFloat = 0
     
+    @IBOutlet var pageTitle: UINavigationItem!
+    @IBOutlet var pageScroll: UIScrollView!
     @IBOutlet var imageView: UIImageView!
+    @IBOutlet var contentView: UIView!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //Based on rating, disable the correct number of stars.
         
         //Load content
@@ -33,6 +35,10 @@ class ViewRecipeVC: UIViewController {
         FillContent(name: "Ingredients", with: recipe.ingredients)
         FillContent(name: "Directions", with: recipe.directions)
         AddNotes(notes: recipe.notes)
+        
+        //Setup Scroll View
+        pageScroll.isScrollEnabled = true
+        pageScroll.contentSize = CGSize(width: pageScroll.bounds.width, height: pageScroll.bounds.height + boundSize)
     }
     
     func FillContent(name: String, with: [Any]) {
@@ -49,7 +55,8 @@ class ViewRecipeVC: UIViewController {
         }
         lastLabel = headerLabel
         headerLabel.sizeToFit()
-        view.addSubview(headerLabel)
+        boundSize += headerLabel.frame.height
+        contentView.addSubview(headerLabel)
         
         if name == "Directions" {
             let directions = with as! [Direction]
@@ -61,7 +68,8 @@ class ViewRecipeVC: UIViewController {
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
                 dataLabel.sizeToFit()
-                view.addSubview(dataLabel)
+                boundSize += dataLabel.frame.height
+                contentView.addSubview(dataLabel)
             }
         } else {
             let content = with as! [String]
@@ -74,7 +82,8 @@ class ViewRecipeVC: UIViewController {
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
                 dataLabel.sizeToFit()
-                view.addSubview(dataLabel)
+                boundSize += dataLabel.frame.height
+                contentView.addSubview(dataLabel)
             }
         }
     }
@@ -99,8 +108,10 @@ class ViewRecipeVC: UIViewController {
         
         headerLabel.sizeToFit()
         noteText.sizeToFit()
-        view.addSubview(headerLabel)
-        view.addSubview(noteText)
+        boundSize += headerLabel.frame.height
+        contentView.addSubview(headerLabel)
+        boundSize += noteText.frame.height
+        contentView.addSubview(noteText)
     }
     
     //End Of Class

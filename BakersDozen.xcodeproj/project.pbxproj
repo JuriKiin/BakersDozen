@@ -23,6 +23,7 @@
 		1183FBB1207DA27100593C63 /* IngredientCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1183FBB0207DA27100593C63 /* IngredientCollectionCell.swift */; };
 		1183FBB3207DC17700593C63 /* Image.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1183FBB2207DC17700593C63 /* Image.xib */; };
 		1183FBB7207DC24700593C63 /* ImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1183FBB6207DC24700593C63 /* ImageCell.swift */; };
+		11A5F43E20853A0400B8BAB9 /* DefaultCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 11A5F43D20853A0400B8BAB9 /* DefaultCell.xib */; };
 		11A9F75C2073291000007F48 /* RecipeTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9F75B2073291000007F48 /* RecipeTableVC.swift */; };
 		11A9F76220732A1500007F48 /* Recipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9F76120732A1500007F48 /* Recipe.swift */; };
 		11A9F7642073313400007F48 /* RecipeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A9F7632073313400007F48 /* RecipeData.swift */; };
@@ -49,6 +50,7 @@
 		1183FBB0207DA27100593C63 /* IngredientCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = IngredientCollectionCell.swift; path = "../New Group/IngredientCollectionCell.swift"; sourceTree = "<group>"; };
 		1183FBB2207DC17700593C63 /* Image.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Image.xib; sourceTree = "<group>"; };
 		1183FBB6207DC24700593C63 /* ImageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageCell.swift; sourceTree = "<group>"; };
+		11A5F43D20853A0400B8BAB9 /* DefaultCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DefaultCell.xib; sourceTree = "<group>"; };
 		11A9F75B2073291000007F48 /* RecipeTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeTableVC.swift; sourceTree = "<group>"; };
 		11A9F76120732A1500007F48 /* Recipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Recipe.swift; sourceTree = "<group>"; };
 		11A9F7632073313400007F48 /* RecipeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeData.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				112A6CEE2080106300D8478F /* Note.xib */,
+				11A5F43D20853A0400B8BAB9 /* DefaultCell.xib */,
 				1183FBA8207D83AA00593C63 /* Ingredient.xib */,
 				1183FBAA207D9DC500593C63 /* Direction.xib */,
 				1183FBB2207DC17700593C63 /* Image.xib */,
@@ -218,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1183FBA9207D83AA00593C63 /* Ingredient.xib in Resources */,
+				11A5F43E20853A0400B8BAB9 /* DefaultCell.xib in Resources */,
 				11C1082C207325D500905364 /* LaunchScreen.storyboard in Resources */,
 				1183FBAB207D9DC500593C63 /* Direction.xib in Resources */,
 				1183FBB3207DC17700593C63 /* Image.xib in Resources */,

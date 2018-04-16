@@ -86,6 +86,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         editTableView.register(UINib(nibName: "Direction", bundle: nil), forCellReuseIdentifier: "Direction")
         editTableView.register(UINib(nibName: "Image", bundle: nil), forCellReuseIdentifier: "Image")
         editTableView.register(UINib(nibName: "Note", bundle: nil), forCellReuseIdentifier: "Note")
+        editTableView.register(UINib(nibName: "DefaultCell", bundle: nil), forCellReuseIdentifier: "DefaultCell")
     }
     
 //HELPER FUNCTIONS.
@@ -236,8 +237,8 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         case 6:
     */
         default:    //Default cell.
-            let cell = editTableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath)
-            cell.textLabel?.text = "Something went wrong."
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+            cell.textLabel?.text = "Something Went wrong"
             return cell
         }
     }

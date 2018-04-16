@@ -91,17 +91,26 @@
                                     <constraint firstItem="BDF-rV-d2A" firstAttribute="top" secondItem="Nxq-5u-j9a" secondAttribute="top" id="1T8-7x-y8y"/>
                                     <constraint firstAttribute="bottom" secondItem="BDF-rV-d2A" secondAttribute="bottom" id="7WL-AS-cnu"/>
                                     <constraint firstItem="BDF-rV-d2A" firstAttribute="leading" secondItem="Nxq-5u-j9a" secondAttribute="leading" id="7b8-nd-Fau"/>
+                                    <constraint firstItem="BDF-rV-d2A" firstAttribute="top" secondItem="Nxq-5u-j9a" secondAttribute="top" id="Rcx-gJ-y45"/>
                                     <constraint firstItem="BDF-rV-d2A" firstAttribute="centerY" secondItem="Nxq-5u-j9a" secondAttribute="centerY" id="VMx-lu-R3q"/>
+                                    <constraint firstAttribute="bottom" secondItem="BDF-rV-d2A" secondAttribute="bottom" id="VUc-fP-5Z2"/>
+                                    <constraint firstItem="BDF-rV-d2A" firstAttribute="leading" secondItem="Nxq-5u-j9a" secondAttribute="leading" id="WAc-96-nQQ"/>
                                     <constraint firstItem="BDF-rV-d2A" firstAttribute="centerX" secondItem="Nxq-5u-j9a" secondAttribute="centerX" id="bjW-LB-qYX"/>
+                                    <constraint firstAttribute="trailing" secondItem="BDF-rV-d2A" secondAttribute="trailing" id="gad-rt-e65"/>
                                 </constraints>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="Nxq-5u-j9a" firstAttribute="leading" secondItem="xwI-Xu-tid" secondAttribute="leading" id="7Xo-Uv-Ers"/>
+                            <constraint firstItem="Nxq-5u-j9a" firstAttribute="top" secondItem="xwI-Xu-tid" secondAttribute="top" id="JLO-ev-dMb"/>
                             <constraint firstAttribute="trailing" secondItem="Nxq-5u-j9a" secondAttribute="trailing" id="Le0-28-T1t"/>
                             <constraint firstItem="Nxq-5u-j9a" firstAttribute="leading" secondItem="aZ8-h0-rLk" secondAttribute="leading" id="WcV-PE-8IA"/>
                             <constraint firstItem="Nxq-5u-j9a" firstAttribute="bottom" secondItem="xwI-Xu-tid" secondAttribute="bottom" id="Wp7-tt-xz7"/>
                             <constraint firstItem="Nxq-5u-j9a" firstAttribute="top" secondItem="xwI-Xu-tid" secondAttribute="top" id="bak-pD-WU4"/>
+                            <constraint firstItem="Nxq-5u-j9a" firstAttribute="bottom" secondItem="xwI-Xu-tid" secondAttribute="bottom" id="gCz-Iv-jkY"/>
+                            <constraint firstItem="Nxq-5u-j9a" firstAttribute="trailing" secondItem="xwI-Xu-tid" secondAttribute="trailing" id="h02-lO-Uyc"/>
+                            <constraint firstItem="BDF-rV-d2A" firstAttribute="width" secondItem="aZ8-h0-rLk" secondAttribute="width" id="yrn-4m-o5o"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="xwI-Xu-tid"/>
                     </view>
@@ -110,7 +119,9 @@
                         <barButtonItem key="rightBarButtonItem" systemItem="edit" id="Mhr-Yp-ZEk"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="contentView" destination="BDF-rV-d2A" id="Vj4-ur-lYN"/>
                         <outlet property="imageView" destination="bMe-UR-6iC" id="soS-TJ-l4O"/>
+                        <outlet property="pageScroll" destination="Nxq-5u-j9a" id="S38-iO-txX"/>
                         <outlet property="pageTitle" destination="BAe-Re-2cX" id="IsE-JS-82A"/>
                     </connections>
                 </viewController>
