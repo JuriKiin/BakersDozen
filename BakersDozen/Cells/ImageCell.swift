@@ -9,15 +9,8 @@
 import UIKit
 
 class ImageCell: UITableViewCell, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
-    
     @IBOutlet var photoImage: UIImageView!
-    
-    
     override func awakeFromNib() {
         super.awakeFromNib()
-        
     }
-
-    
 }

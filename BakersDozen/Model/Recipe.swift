@@ -57,13 +57,14 @@ class Recipe {
     }
     
     //Helper init
-    init(title: String, rating: Int, ingredients: [String], directions: [Direction], notes: String){
+    init(title: String, rating: Int, ingredients: [String], directions: [Direction], notes: String, image: UIImage){
         self.title = title
         self.rating = rating
         self.ingredients = ingredients
         self.directions = directions
         self.notes = notes
         self._id = ""
+        self.image = image
         color = .white
     }
     

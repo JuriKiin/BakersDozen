@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol NameCellDelegate {
+    func nameCell(_ nameCell: NameCell, with name: String)
+}
+
+
 class NameCell: UITableViewCell, UITextFieldDelegate {
 
     @IBOutlet var nameTextField: UITextField!
     
     let recipe = EditRecipeTableVC()
+    var delegate: NameCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -23,10 +29,9 @@ class NameCell: UITableViewCell, UITextFieldDelegate {
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if nameTextField.text != "" {
-            recipe.ChangeRecipeTitle(name: nameTextField.text!)
-            print("Did change title")
+            delegate?.nameCell(self, with: nameTextField.text!)
+            nameTextField.resignFirstResponder()
         }
         return true
     }
-
 }

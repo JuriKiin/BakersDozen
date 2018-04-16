@@ -6,7 +6,7 @@
 //  Copyright © 2018 Juri Kiin. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public class RecipeData {
     
@@ -15,7 +15,14 @@ public class RecipeData {
     var recipes = [Recipe]()
     
     private init(){
-        let testCell = Recipe(title: "Test1", rating: 0, ingredients: [], directions: [], notes: "")
+        let testCell = Recipe()
+        
+        testCell.title = "Blueberry Muffins"
+        testCell.ingredients = ["Milk", "Eggs"]
+        testCell.directions = [Direction(data: "Bake", hasTimer: false, ingredients: ["Milk"])]
+        testCell.notes = "Testing NOte.."
+        testCell.image = UIImage(contentsOfFile: "default.png")
+        
         recipes.append(testCell)
     }
     

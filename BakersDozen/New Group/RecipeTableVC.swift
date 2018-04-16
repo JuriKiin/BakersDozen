@@ -11,6 +11,7 @@ import UIKit
 class RecipeTableVC: UITableViewController {
     
     @IBOutlet var recipeTable: UITableView!
+    var navController:UINavigationController!
     var recipe: Recipe!
     
     override func viewDidLoad() {
@@ -47,15 +48,15 @@ class RecipeTableVC: UITableViewController {
         cell.recipe = RecipeData.sharedData.recipes[indexPath.row]
         cell.textLabel?.text = RecipeData.sharedData.recipes[indexPath.row].title
         cell.backgroundColor = RecipeData.sharedData.recipes[indexPath.row].color
+        print(cell.recipe.image)
         return cell
     }
-    
-    var navController:UINavigationController!
     
     @IBAction func AddRecipe(_ sender: Any) {
         navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController
         navController.modalPresentationStyle = .fullScreen
         let view = navController.topViewController as! EditRecipeTableVC
+        view.recipeIndexInMaster = -1
         view.recipe = Recipe()
         present(navController, animated: true)
     }
@@ -65,16 +66,19 @@ class RecipeTableVC: UITableViewController {
         
         //If we're editing the table, load the Edit View with the recipe selected
         if recipeTable.isEditing {
-            let vc = storyboard?.instantiateViewController(withIdentifier: "Edit") as! EditRecipeTableVC
-            vc.modalPresentationStyle = .fullScreen
-            recipe = RecipeData.sharedData.recipes[indexPath.row]
-            present(vc, animated: true)
+            navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController
+            navController.modalPresentationStyle = .fullScreen
+            let view = navController.topViewController as! EditRecipeTableVC
+            view.recipeIndexInMaster = indexPath.row
+            view.recipe = RecipeData.sharedData.recipes[indexPath.row]
+            present(navController, animated: true)
         
         } else {    //Load View Recipe VC with selected Recipe.
-            let vc = storyboard?.instantiateViewController(withIdentifier: "View") as! ViewRecipeVC
-            vc.modalPresentationStyle = .fullScreen
-            recipe = RecipeData.sharedData.recipes[indexPath.row]
-            present(vc, animated: true)
+            navController = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeNavigation") as! UINavigationController
+            navController.modalPresentationStyle = .fullScreen
+            let view = navController.topViewController as! ViewRecipeVC
+            view.recipe = RecipeData.sharedData.recipes[indexPath.row]
+            present(navController, animated: true)
         }
     }
     

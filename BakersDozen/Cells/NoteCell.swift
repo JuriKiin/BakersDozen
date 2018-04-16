@@ -8,11 +8,17 @@
 
 import UIKit
 
+protocol NoteCellDelegate {
+    func noteCell(_ noteCell: NoteCell, with text: String)
+}
+
+
 class NoteCell: UITableViewCell, UITextViewDelegate {
     
     @IBOutlet var textArea: UITextView!
     
     let recipeVC = EditRecipeTableVC()
+    var delegate: NoteCellDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -20,8 +26,10 @@ class NoteCell: UITableViewCell, UITextViewDelegate {
         textArea.returnKeyType = .done
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        recipeVC.EditNote(note: textArea.text)
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
+        print("In Here")
+        delegate?.noteCell(self, with: textArea.text)
         return true
     }
+    
 }

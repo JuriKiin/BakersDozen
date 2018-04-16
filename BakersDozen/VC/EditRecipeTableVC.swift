@@ -12,7 +12,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 
     var recipe = Recipe()
     var imageCell: UIImageView!
-    let defaultImage = UIImage(named: "default.png")
+    let defaultImage = UIImage(contentsOfFile: "default.png")
     var recipeIndexInMaster: Int!
     
 //IBOutlets
@@ -22,6 +22,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     @IBOutlet var directionTextField: UITextField!
     @IBOutlet var noteTextField: UITextField!
     
+    @IBOutlet var pageTitle: UINavigationItem!
     
 //IBActions
     
@@ -45,10 +46,19 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 break
             }
         }
-        recipe.GenerateNewId()
-        RecipeData.sharedData.recipes.append(recipe)
+        
+        if recipeIndexInMaster == -1 {
+            recipe.GenerateNewId()
+            RecipeData.sharedData.recipes.append(recipe)
+        } else {
+            //Replace the recipe we already have.
+            RecipeData.sharedData.recipes[recipeIndexInMaster] = recipe
+        }
         
         //Load MainView.
+        let navController = storyboard?.instantiateViewController(withIdentifier: "MainView") as! UINavigationController
+        navController.modalPresentationStyle = .fullScreen
+        present(navController, animated: true)
     }
     
     
@@ -89,12 +99,11 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     //Changes the recipe name
     func ChangeRecipeTitle(name: String) {
         recipe.title = name
-        editTableView.reloadData()
+        pageTitle.title = name
     }
     
     func EditNote(note: String) {
         recipe.notes = note
-        editTableView.reloadData()
     }
     
     //Adds a direction, and then reloads the table.
@@ -106,13 +115,8 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 //Image select functions
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        for cell in editTableView.visibleCells {
-            let path = editTableView.indexPath(for: cell)
-            if path?.section == 0 {
-                let newCell = cell as! ImageCell
-                newCell.photoImage.image = image
-            }
-        }
+        recipe.image = image
+        editTableView.reloadData()
         dismiss(animated:true, completion: nil)
     }
     
@@ -167,15 +171,16 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 
             //If our recipe is nil, load a default image
             if recipe.image != nil {
-                imageCell.image = recipe.image
+                cell.photoImage.image = recipe.image
             } else { //Load the saved image.
-                imageCell?.image! = defaultImage!
+               cell.photoImage.image = defaultImage
             }
             return cell
        // case 1:
         case 2: //We are adding a Custom Recipe Name Cell
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Name", for: indexPath) as! NameCell
             //If our recipe name is the default, set placeholder text
+            cell.delegate = self
             if recipe.title == ""{
                 cell.nameTextField.placeholder = "Enter Recipe Name"
             } else {
@@ -200,20 +205,27 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Direction", for: indexPath) as! DirectionCell
             cell.directionTextField.text = nil
             cell.directionTextField.placeholder = nil
+            cell.ingredients = []
             cell.delegate = self
             //If we have no directions, set the placeholder direction text
             if recipe.directions.count == indexPath.row {
                 cell.directionTextField.placeholder = "Enter Direction"
+                cell.ingredients = recipe.ingredients
+                cell.connectedIngredients = []
+                cell.ingredientView.reloadData()
             } else {
                 //Otherwise, set the direction text for the cell.
                 cell.directionTextField.text = recipe.directions[indexPath.row].data
+                cell.ingredients = recipe.ingredients
                 cell.connectedIngredients = recipe.directions[indexPath.row].ingredients
+                cell.ingredientView.reloadData()
             }
             cell.ingredients = recipe.ingredients
             return cell
 
         case 5:
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Note", for: indexPath) as! NoteCell
+            cell.delegate = self
             if recipe.notes == "" {
                 cell.textArea.text = "Enter Note Here"
             } else {
@@ -224,7 +236,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         case 6:
     */
         default:    //Default cell.
-            let cell = editTableView.dequeueReusableCell(withIdentifier: "Note", for: indexPath)
+            let cell = editTableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath)
             cell.textLabel?.text = "Something went wrong."
             return cell
         }
@@ -242,7 +254,24 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ""
+        switch section {
+        case 0:
+            return ""
+        case 1:
+            return ""
+        case 2:
+            return "Recipe Name"
+        case 3:
+            return "Ingredients"
+        case 4:
+            return "Directions"
+        case 5:
+            return "Notes"
+        case 6:
+            return ""
+        default:
+            return ""
+        }
     }
 
     // Override to support editing the table view.
@@ -254,7 +283,16 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     }
 }
 
-extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate {
+extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate {
+    func noteCell(_ noteCell: NoteCell, with text: String) {
+        noteCell.textArea.endEditing(true)
+        EditNote(note: text)
+    }
+    
+    func nameCell(_ nameCell: NameCell, with name: String) {
+        ChangeRecipeTitle(name: name)
+    }
+    
     func ingredientCell(_ ingredientCell: IngredientCell, didAddIngredient ingredient: String) {
         AddIngredient(ingredient)
     }

@@ -17,7 +17,7 @@ class IngredientCell: UITableViewCell, UITextFieldDelegate {
     
     @IBOutlet var ingredientField: UITextField!
     var delegate: IngredientCellDelegate?
-    
+    var hasBeenCreated: Bool!
     
     override func awakeFromNib() {
         super.awakeFromNib()

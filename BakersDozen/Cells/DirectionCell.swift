@@ -33,6 +33,9 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        print("Creating Cells")
+        
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
         cell.name.text = ingredients[indexPath.row]
         cell.name.layer.borderColor = UIColor.black.cgColor
@@ -59,10 +62,13 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        ingredientView.register(UINib(nibName: "ingredientCell", bundle: nil), forCellWithReuseIdentifier: "ingredientCell")
-        
+        print("In View")
         ingredientView.delegate = self
         ingredientView.dataSource = self
+        
+        ingredientView.register(UINib(nibName: "ingredientCell", bundle: nil), forCellWithReuseIdentifier: "ingredientCell")
+        ingredientView.reloadData()
+        
         directionTextField.delegate = self
         directionTextField.returnKeyType = .done
         

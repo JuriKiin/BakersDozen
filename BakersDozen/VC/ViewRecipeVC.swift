@@ -14,9 +14,10 @@ class ViewRecipeVC: UIViewController {
     
     let headerFontSize: CGFloat = 30
     let dataLabelFontSize: CGFloat = 20
-    let verticalPadding: CGFloat = 10
+    let verticalPadding: CGFloat = 15
     let sectionPadding: CGFloat = 20
     var lastLabel: UILabel!
+    @IBOutlet var pageTitle: UINavigationItem!
     
     @IBOutlet var imageView: UIImageView!
     
@@ -27,7 +28,8 @@ class ViewRecipeVC: UIViewController {
         //Based on rating, disable the correct number of stars.
         
         //Load content
-        imageView.image = recipe?.image
+        pageTitle.title = recipe.title
+        imageView.image = recipe.image
         FillContent(name: "Ingredients", with: recipe.ingredients)
         FillContent(name: "Directions", with: recipe.directions)
         AddNotes(notes: recipe.notes)
@@ -46,6 +48,7 @@ class ViewRecipeVC: UIViewController {
             headerLabel.center = CGPoint(x: 10, y: lastLabel.center.y + sectionPadding)
         }
         lastLabel = headerLabel
+        headerLabel.sizeToFit()
         view.addSubview(headerLabel)
         
         if name == "Directions" {
@@ -57,6 +60,7 @@ class ViewRecipeVC: UIViewController {
                 dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
+                dataLabel.sizeToFit()
                 view.addSubview(dataLabel)
             }
         } else {
@@ -69,6 +73,7 @@ class ViewRecipeVC: UIViewController {
                 dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
+                dataLabel.sizeToFit()
                 view.addSubview(dataLabel)
             }
         }
@@ -90,8 +95,10 @@ class ViewRecipeVC: UIViewController {
         let noteText = UITextView()
         noteText.text = notes
         
-        noteText.center = CGPoint(x: 10, y: lastLabel.frame.maxY + sectionPadding)
+        noteText.center = CGPoint(x: 10, y: lastLabel.frame.maxY + verticalPadding + 20)
         
+        headerLabel.sizeToFit()
+        noteText.sizeToFit()
         view.addSubview(headerLabel)
         view.addSubview(noteText)
     }
