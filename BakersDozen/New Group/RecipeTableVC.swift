@@ -103,6 +103,7 @@ class RecipeTableVC: UITableViewController {
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             RecipeData.sharedData.recipes.remove(at: indexPath.row)
+            toggleEditTable()
             recipeTable.reloadData()
         }
     }

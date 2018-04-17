@@ -13,7 +13,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     var recipe = Recipe()
     var isNewCell: Bool!
     var imageCell: UIImageView!
-    let defaultImage = UIImage(contentsOfFile: "default.png")
+    let defaultImage = UIImage(named: "DefaultImage")
     var recipeIndexInMaster: Int!
     
     //Helper vars for saving/editing a recipe
@@ -33,7 +33,11 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     //Saves recipe to RecipeData singleton.
     @IBAction func SaveRecipe(_ sender: Any) {
-        if isNewCell {
+        if isNewCell {  //Load some default options if its a new cell.
+            if recipe.title == "" {
+                recipe.title = "New Recipe"
+            }
+            //Generate a new ID and add to the singleton data.
             recipe.GenerateNewId()
             RecipeData.sharedData.recipes.append(recipe)
         } else {
@@ -100,6 +104,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         dismiss(animated:true, completion: nil)
     }
     
+    //Lets user choose a photo from their library.
     @objc func ChoosePhotoFromLibrary(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()
@@ -144,6 +149,11 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         case 0: // We are adding a Custom Image cell
             //Create the cell
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath) as! ImageCell
+            if recipe.image == nil {
+                cell.photoImage.image = defaultImage
+            } else {
+                cell.photoImage.image = recipe.image
+            }
             //Add the gesture
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ChoosePhotoFromLibrary(_:)))
             cell.isUserInteractionEnabled = true
@@ -218,7 +228,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             return cell
         default:    //Default cell.
             let cell = editTableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
-            cell.textLabel?.text = "Something Went wrong"
+            cell.textLabel?.text = "Cell template not yet created."
             return cell
         }
     }
