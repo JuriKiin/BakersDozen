@@ -110,8 +110,16 @@
                         <viewLayoutGuide key="safeArea" id="xwI-Xu-tid"/>
                     </view>
                     <navigationItem key="navigationItem" title="Recipe" id="BAe-Re-2cX">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="bnS-dY-pOf"/>
-                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="Mhr-Yp-ZEk"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="bnS-dY-pOf">
+                            <connections>
+                                <segue destination="Ebf-UK-jjw" kind="unwind" unwindAction="unwindWithCancelTappedWithSegue:" id="eyI-vv-CNO"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="action" id="Mhr-Yp-ZEk">
+                            <connections>
+                                <action selector="shareRecipe:" destination="1Ug-KU-KPr" id="IFN-9A-kSv"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="contentView" destination="BDF-rV-d2A" id="Vj4-ur-lYN"/>
@@ -121,6 +129,7 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bgf-wE-Lax" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="Ebf-UK-jjw" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="253.59999999999999" y="706.59670164917543"/>
         </scene>

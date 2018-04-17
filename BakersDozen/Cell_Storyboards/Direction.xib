@@ -35,7 +35,7 @@
                         </collectionViewFlowLayout>
                     </collectionView>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5v-1z-maO">
-                        <rect key="frame" x="338" y="11" width="29" height="30"/>
+                        <rect key="frame" x="333" y="11" width="29" height="30"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>

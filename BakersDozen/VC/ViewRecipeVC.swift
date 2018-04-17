@@ -19,11 +19,21 @@ class ViewRecipeVC: UIViewController {
     var lastLabel: UILabel!
     var boundSize: CGFloat = 0
     
+//IBOutlets
     @IBOutlet var pageTitle: UINavigationItem!
     @IBOutlet var pageScroll: UIScrollView!
     @IBOutlet var imageView: UIImageView!
     @IBOutlet var contentView: UIView!
     
+//IBActions
+    @IBAction func shareRecipe(_ sender: Any) {
+        let shareText = "Check out the recipe I made for \(recipe.title) on Baker's Dozen!"
+        let objectsToShare = [recipe.image!, shareText] as [Any]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
+        activityVC.popoverPresentationController?.sourceView = view
+        self.present(activityVC, animated: true, completion: nil)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

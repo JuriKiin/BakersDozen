@@ -19,9 +19,9 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     @IBOutlet var ingredientView: UICollectionView!
     @IBOutlet var timerImage: UIImageView!
     
-    let timerOnImage = UIImage(named: "timerOn")
-    let timerOffImage = UIImage(named: "timerOff")
-    var hasTimer: Bool = false
+    let timerOnImage = UIImage(named: "Timer_On")
+    let timerOffImage = UIImage(named: "Timer_Off")
+    var hasTimer: Bool = true
     
     var delegate: DirectionCellDelegate?
     
@@ -62,7 +62,6 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     override func awakeFromNib() {
         super.awakeFromNib()
         
-        print("In View")
         ingredientView.delegate = self
         ingredientView.dataSource = self
         
@@ -73,17 +72,19 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         directionTextField.returnKeyType = .done
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
+        
+        ToggleTimer()
         timerImage?.isUserInteractionEnabled = true
         timerImage?.addGestureRecognizer(tapGesture)
     }
     
     @objc func ToggleTimer() {
+        hasTimer = !hasTimer
         if hasTimer {
             timerImage.image = timerOnImage
         } else {
             timerImage.image = timerOffImage
         }
-        hasTimer = !hasTimer
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
