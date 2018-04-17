@@ -10,18 +10,36 @@ import UIKit
 
 class Direction {
     var data: String
-    var ingredients: [String]
+    var ingredients: [Ingredient]
     var hasTimer: Bool
+    var isNewDirection: Bool
     
     init() {
         data = ""
         hasTimer = false
         ingredients = []
+        isNewDirection = true
     }
-    init(data: String, hasTimer: Bool, ingredients: [String]) {
+    init(data: String, hasTimer: Bool, ingredients: [Ingredient]) {
         self.data = data
         self.hasTimer = hasTimer
         self.ingredients = ingredients
+        isNewDirection = true
+    }
+}
+
+class Ingredient {
+    var data: String
+    var isNewIngredient: Bool
+    
+    init() {
+        data = ""
+        isNewIngredient = true
+    }
+    
+    init(data: String, isNew: Bool) {
+        self.data = data
+        self.isNewIngredient = isNew
     }
 }
 
@@ -38,7 +56,7 @@ class Recipe {
         }
     }
     var _id: String
-    var ingredients:[String]
+    var ingredients:[Ingredient]
     var directions:[Direction]
     var notes:String
     
@@ -57,7 +75,7 @@ class Recipe {
     }
     
     //Helper init
-    init(title: String, rating: Int, ingredients: [String], directions: [Direction], notes: String, image: UIImage){
+    init(title: String, rating: Int, ingredients: [Ingredient], directions: [Direction], notes: String, image: UIImage){
         self.title = title
         self.rating = rating
         self.ingredients = ingredients

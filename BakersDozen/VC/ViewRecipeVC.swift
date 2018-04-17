@@ -82,12 +82,12 @@ class ViewRecipeVC: UIViewController {
                 contentView.addSubview(dataLabel)
             }
         } else {
-            let content = with as! [String]
+            let content = with as! [Ingredient]
             //loop through array and create list with array data
             for i in 0 ..< with.count {
                 let dataLabel = UILabel()
                 //Format string (possibly attributed string formatting HERE.
-                dataLabel.text = content[i]
+                dataLabel.text = content[i].data
                 dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!

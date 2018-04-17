@@ -75,7 +75,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 //HELPER FUNCTIONS.
     
     //Adds a cell of either Ingredient or note.
-    func AddIngredient(_ data: String) {
+    func AddIngredient(_ data: Ingredient) {
         recipe.ingredients.append(data)
         editTableView.reloadData()
     }
@@ -188,7 +188,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.ingredientField.placeholder = "Enter Ingredient"
             } else {
                 //Otherwise, add the ingredient
-                cell.ingredientField.text = recipe.ingredients[indexPath.row]
+                cell.ingredientField.text = recipe.ingredients[indexPath.row].data
             }
            return cell
         case 4: //We are adding a direction
@@ -246,10 +246,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 0:
-            return ""
-        case 1:
-            return ""
         case 2:
             return "Recipe Name"
         case 3:
@@ -258,20 +254,44 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             return "Directions"
         case 5:
             return "Notes"
-        case 6:
-            return ""
         default:
             return ""
+        }
+    }
+    
+    //Distinguish which sections we can edit the table rows.
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        switch indexPath.section {
+        case 3:
+            return true
+        case 4:
+            return true
+        default:
+            return false
         }
     }
 
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
-            editTableView.deleteRows(at: [indexPath], with: .fade)
+            
+            switch indexPath.section {
+            case 3:
+                if indexPath.row < recipe.ingredients.count {
+                    recipe.ingredients.remove(at: indexPath.row)
+                }
+            case 4:
+                if indexPath.row < recipe.directions.count {
+                    recipe.directions.remove(at: indexPath.row)
+                }
+            default:
+                return
+            }
         }
+        editTableView.reloadData()
     }
+    
+    //End of controller
 }
 
 extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate, DeleteCellDelegate {
@@ -296,7 +316,7 @@ extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, Name
         ChangeRecipeTitle(name: name)
     }
     
-    func ingredientCell(_ ingredientCell: IngredientCell, didAddIngredient ingredient: String) {
+    func ingredientCell(_ ingredientCell: IngredientCell, didAddIngredient ingredient: Ingredient) {
         AddIngredient(ingredient)
     }
     func directionCell(_ directionCell: DirectionCell, didAddDirection direction: Direction) {

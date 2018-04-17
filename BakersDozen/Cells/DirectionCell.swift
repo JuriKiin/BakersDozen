@@ -21,13 +21,13 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     let timerOnImage = UIImage(named: "Timer_On")
     let timerOffImage = UIImage(named: "Timer_Off")
-    var hasTimer: Bool = true
+    var hasTimer: Bool = false
     var index: Int!
     
     var delegate: DirectionCellDelegate?
     
-    var ingredients: [String] = []
-    var connectedIngredients: [String] = []
+    var ingredients: [Ingredient] = []
+    var connectedIngredients: [Ingredient] = []
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ingredients.count
@@ -35,10 +35,8 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        print("Creating Cells")
-        
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
-        cell.name.text = ingredients[indexPath.row]
+        cell.name.text = ingredients[indexPath.row].data
         cell.name.layer.borderColor = UIColor.black.cgColor
         cell.name.layer.borderWidth = 2.0
         
@@ -52,10 +50,10 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     @objc func ToggleIngredientSelected(press: UITapGestureRecognizer) {
         let cell = press.view as! IngredientCollectionCell
         for i in 0 ..< ingredients.count {
-            if ingredients[i] == cell.name.text! {
+            if ingredients[i].data == cell.name.text! {
                 ingredients.remove(at: i)
             } else {
-                ingredients.append(cell.name.text!)
+                ingredients.append(Ingredient(data: cell.name.text!, isNew: false))
             }
         }
     }
@@ -74,13 +72,18 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
         
-        ToggleTimer()
+        checkTimer()
+        
         timerImage?.isUserInteractionEnabled = true
         timerImage?.addGestureRecognizer(tapGesture)
     }
     
     @objc func ToggleTimer() {
         hasTimer = !hasTimer
+        checkTimer()
+    }
+    
+    func checkTimer() {
         if hasTimer {
             timerImage.image = timerOnImage
         } else {

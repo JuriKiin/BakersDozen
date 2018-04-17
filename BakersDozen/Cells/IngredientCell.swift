@@ -9,7 +9,7 @@
 import UIKit
 
 protocol IngredientCellDelegate {
-    func ingredientCell (_ ingredientCell: IngredientCell, didAddIngredient ingredient: String)
+    func ingredientCell (_ ingredientCell: IngredientCell, didAddIngredient ingredient: Ingredient)
 }
 
 class IngredientCell: UITableViewCell, UITextFieldDelegate {
@@ -26,9 +26,8 @@ class IngredientCell: UITableViewCell, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if ingredientField.text != "" {
-            delegate?.ingredientCell(self, didAddIngredient: ingredientField.text!)
-        }
+        let ingredient = Ingredient(data: ingredientField.text!, isNew: false)
+        delegate?.ingredientCell(self, didAddIngredient: ingredient)
         return true
     }
 }

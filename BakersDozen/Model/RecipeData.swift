@@ -18,9 +18,9 @@ public class RecipeData {
         let testCell = Recipe()
         
         testCell.title = "Blueberry Muffins"
-        testCell.ingredients = ["Milk", "Eggs"]
-        testCell.directions = [Direction(data: "Bake", hasTimer: false, ingredients: ["Milk"])]
-        testCell.notes = "Testing NOte.."
+        testCell.ingredients = [Ingredient(data: "Milk", isNew: false),Ingredient(data: "Eggs", isNew: false)]
+        testCell.directions = [Direction(data: "Bake", hasTimer: false, ingredients: [Ingredient(data: "Milk", isNew: false)])]
+        testCell.notes = "Testing Note.."
         testCell.image = UIImage(contentsOfFile: "default.png")
         
         recipes.append(testCell)
