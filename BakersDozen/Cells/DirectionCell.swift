@@ -26,6 +26,7 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     var delegate: DirectionCellDelegate?
     
+    var direction: Direction = Direction()
     var ingredients: [Ingredient] = []
     var connectedIngredients: [Ingredient] = []
     
@@ -93,11 +94,10 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if directionTextField.text != "" {
-            let newDirection = Direction()
-            newDirection.data = directionTextField.text!
-            newDirection.hasTimer = hasTimer
-            newDirection.ingredients = connectedIngredients
-            delegate?.directionCell(self, didAddDirection: newDirection)
+            direction.data = directionTextField.text!
+            direction.hasTimer = hasTimer
+            direction.ingredients = connectedIngredients
+            delegate?.directionCell(self, didAddDirection: direction)
         }
         return true
     }

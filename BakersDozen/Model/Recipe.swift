@@ -13,33 +13,39 @@ class Direction {
     var ingredients: [Ingredient]
     var hasTimer: Bool
     var isNewDirection: Bool
+    var index: Int
     
     init() {
         data = ""
         hasTimer = false
         ingredients = []
         isNewDirection = true
+        index = -1
     }
     init(data: String, hasTimer: Bool, ingredients: [Ingredient]) {
         self.data = data
         self.hasTimer = hasTimer
         self.ingredients = ingredients
         isNewDirection = true
+        index = -1
     }
 }
 
 class Ingredient {
     var data: String
     var isNewIngredient: Bool
+    var index: Int
     
     init() {
         data = ""
         isNewIngredient = true
+        index = -1
     }
     
     init(data: String, isNew: Bool) {
         self.data = data
         self.isNewIngredient = isNew
+        self.index = -1
     }
 }
 

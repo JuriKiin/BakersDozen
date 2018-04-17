@@ -11,8 +11,7 @@ import UIKit
 class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var recipe = Recipe()
-    var isNewCell: Bool!
-    var imageCell: UIImageView!
+    var isNewRecipe: Bool!
     let defaultImage = UIImage(named: "DefaultImage")
     var recipeIndexInMaster: Int!
     
@@ -33,7 +32,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     //Saves recipe to RecipeData singleton.
     @IBAction func SaveRecipe(_ sender: Any) {
-        if isNewCell {  //Load some default options if its a new cell.
+        if isNewRecipe {  //Load some default options if its a new cell.
             if recipe.title == "" {
                 recipe.title = "New Recipe"
             }
@@ -76,7 +75,15 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     //Adds a cell of either Ingredient or note.
     func AddIngredient(_ data: Ingredient) {
-        recipe.ingredients.append(data)
+        
+        if recipe.ingredients.count == 0 {
+            recipe.ingredients.append(data)
+        }
+        else if data.isNewIngredient {
+            recipe.ingredients.append(data)
+        } else {
+            recipe.ingredients[data.index].data = data.data
+        }
         editTableView.reloadData()
     }
     
@@ -92,7 +99,14 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     //Adds a direction, and then reloads the table.
     func AddDirection(_ direction: Direction) {
-        recipe.directions.append(direction)
+        if recipe.directions.count == 0 {
+            recipe.directions.append(direction)
+        }
+        else if direction.isNewDirection {
+            recipe.directions.append(direction)
+        } else {
+            recipe.directions[direction.index].data = direction.data
+        }
         editTableView.reloadData()
     }
     
@@ -182,12 +196,15 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Ingredient", for: indexPath) as! IngredientCell
             cell.ingredientField.text = nil
             cell.ingredientField.placeholder = nil
+            cell.ingredient.index = indexPath.row
             cell.delegate = self
             //If there are no loaded ingredients, set placeholder
             if recipe.ingredients.count == indexPath.row {
                 cell.ingredientField.placeholder = "Enter Ingredient"
+                cell.ingredient.isNewIngredient = true
             } else {
                 //Otherwise, add the ingredient
+                cell.ingredient.isNewIngredient = false
                 cell.ingredientField.text = recipe.ingredients[indexPath.row].data
             }
            return cell
@@ -197,15 +214,18 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             cell.directionTextField.placeholder = nil
             cell.ingredients = []
             cell.delegate = self
+            cell.direction.index = indexPath.row
             //If we have no directions, set the placeholder direction text
             if recipe.directions.count == indexPath.row {
                 cell.directionTextField.placeholder = "Enter Direction"
+                cell.direction.isNewDirection = true
                 cell.ingredients = recipe.ingredients
                 cell.connectedIngredients = []
                 cell.ingredientView.reloadData()
             } else {
                 //Otherwise, set the direction text for the cell.
                 cell.directionTextField.text = recipe.directions[indexPath.row].data
+                cell.direction.isNewDirection = false
                 cell.ingredients = recipe.ingredients
                 cell.connectedIngredients = recipe.directions[indexPath.row].ingredients
                 cell.ingredientView.reloadData()

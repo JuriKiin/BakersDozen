@@ -34,7 +34,7 @@ class RecipeTableVC: UITableViewController {
         navController.modalPresentationStyle = .fullScreen
         let view = navController.topViewController as! EditRecipeTableVC
         view.recipeIndexInMaster = -1
-        view.isNewCell = true
+        view.isNewRecipe = true
         view.recipe = Recipe()
         present(navController, animated: true)
     }
@@ -86,7 +86,7 @@ class RecipeTableVC: UITableViewController {
             navController.modalPresentationStyle = .fullScreen
             let view = navController.topViewController as! EditRecipeTableVC
             view.recipeIndexInMaster = indexPath.row
-            view.isNewCell = false
+            view.isNewRecipe = false
             view.recipe = RecipeData.sharedData.recipes[indexPath.row]
             present(navController, animated: true)
         

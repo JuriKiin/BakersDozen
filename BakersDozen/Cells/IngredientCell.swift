@@ -18,6 +18,7 @@ class IngredientCell: UITableViewCell, UITextFieldDelegate {
     @IBOutlet var ingredientField: UITextField!
     var delegate: IngredientCellDelegate?
     var hasBeenCreated: Bool!
+    let ingredient: Ingredient = Ingredient()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,7 +27,7 @@ class IngredientCell: UITableViewCell, UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let ingredient = Ingredient(data: ingredientField.text!, isNew: false)
+        ingredient.data = ingredientField.text!
         delegate?.ingredientCell(self, didAddIngredient: ingredient)
         return true
     }

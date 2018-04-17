@@ -34,16 +34,19 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                     </collectionView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="P5v-1z-maO">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="P5v-1z-maO">
                         <rect key="frame" x="333" y="11" width="29" height="30"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstItem="vmv-c6-OHl" firstAttribute="top" secondItem="YGv-rt-kvI" secondAttribute="topMargin" id="6Bj-uV-jxP"/>
+                    <constraint firstItem="foK-8T-hR8" firstAttribute="top" secondItem="P5v-1z-maO" secondAttribute="bottom" constant="8" symbolic="YES" id="Cpj-Di-5Yc"/>
                     <constraint firstItem="vmv-c6-OHl" firstAttribute="leading" secondItem="foK-8T-hR8" secondAttribute="leading" id="Km8-Mh-sv1"/>
                     <constraint firstItem="foK-8T-hR8" firstAttribute="top" secondItem="vmv-c6-OHl" secondAttribute="bottom" constant="8" symbolic="YES" id="QWE-UA-Nce"/>
                     <constraint firstItem="foK-8T-hR8" firstAttribute="bottom" secondItem="YGv-rt-kvI" secondAttribute="bottomMargin" id="U7V-Uf-vDq"/>
+                    <constraint firstItem="P5v-1z-maO" firstAttribute="leading" secondItem="vmv-c6-OHl" secondAttribute="trailing" constant="3" id="UwQ-dq-2Q1"/>
+                    <constraint firstItem="P5v-1z-maO" firstAttribute="top" secondItem="vmv-c6-OHl" secondAttribute="top" id="Zht-lc-VAr"/>
+                    <constraint firstAttribute="trailing" secondItem="P5v-1z-maO" secondAttribute="trailing" constant="21" id="u5i-8d-hgF"/>
                 </constraints>
             </tableViewCellContentView>
             <constraints>
