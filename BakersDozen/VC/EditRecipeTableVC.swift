@@ -11,9 +11,14 @@ import UIKit
 class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     var recipe = Recipe()
+    var isNewCell: Bool!
     var imageCell: UIImageView!
     let defaultImage = UIImage(contentsOfFile: "default.png")
     var recipeIndexInMaster: Int!
+    
+    //Helper vars for saving/editing a recipe
+    var previousIngredients: Int!
+    var previousDirections: Int!
     
 //IBOutlets
     @IBOutlet var editTableView: UITableView!
@@ -28,26 +33,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     //Saves recipe to RecipeData singleton.
     @IBAction func SaveRecipe(_ sender: Any) {
-        
-        for cell in editTableView.visibleCells{
-            let path = editTableView.indexPath(for: cell)
-            
-            switch path?.section {
-            case 2:
-                let nameCell = cell as! NameCell
-                recipe.title = nameCell.nameTextField.text!
-            case 3:
-                let ingredientCell = cell as! IngredientCell
-                recipe.ingredients.append(ingredientCell.ingredientField.text!)
-            case 5:
-                let noteCell = cell as! NoteCell
-                recipe.notes = noteCell.textArea.text
-            default:
-                break
-            }
-        }
-        
-        if recipeIndexInMaster == -1 {
+        if isNewCell {
             recipe.GenerateNewId()
             RecipeData.sharedData.recipes.append(recipe)
         } else {
@@ -67,6 +53,10 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         
         //Set the delegate
         editTableView.delegate = self
+        
+        //Set helper variables
+        previousIngredients = recipe.ingredients.count
+        previousDirections = recipe.directions.count
         
         //Register the custom cell xibs
         editTableView.register(UINib(nibName: "Name", bundle: nil), forCellReuseIdentifier: "Name")

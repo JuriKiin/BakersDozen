@@ -10,16 +10,18 @@ import UIKit
 
 class RecipeTableVC: UITableViewController {
     
-    @IBOutlet var recipeTable: UITableView!
     var navController:UINavigationController!
     var recipe: Recipe!
+    
+    @IBOutlet var recipeTable: UITableView!
+    @IBOutlet var editButton: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         //LoadRecipes()
         recipe = Recipe()
         recipeTable.delegate = self
-        recipeTable.reloadData()
+        recipeTable.allowsSelectionDuringEditing = true
     }
     
     //Reload the data when coming back to this view.
@@ -27,9 +29,33 @@ class RecipeTableVC: UITableViewController {
         recipeTable.reloadData()
     }
     
+    @IBAction func AddRecipe(_ sender: Any) {
+        navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController
+        navController.modalPresentationStyle = .fullScreen
+        let view = navController.topViewController as! EditRecipeTableVC
+        view.recipeIndexInMaster = -1
+        view.isNewCell = true
+        view.recipe = Recipe()
+        present(navController, animated: true)
+    }
+    
+    @IBAction func editTable(_ sender: Any) {
+        toggleEditTable()
+    }
+    
+//helper functions
     func LoadRecipes() -> [Recipe] {
         //Load recipes from storage
         return []
+    }
+    
+    func toggleEditTable() {
+        recipeTable.isEditing = !recipeTable.isEditing
+        if recipeTable.isEditing {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(RecipeTableVC.editTable(_:)))
+        } else {
+            self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .edit, target: self, action: #selector(RecipeTableVC.editTable(_:)))
+        }
     }
 
     //We only want 1 section right now.
@@ -51,15 +77,6 @@ class RecipeTableVC: UITableViewController {
         return cell
     }
     
-    @IBAction func AddRecipe(_ sender: Any) {
-        navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController
-        navController.modalPresentationStyle = .fullScreen
-        let view = navController.topViewController as! EditRecipeTableVC
-        view.recipeIndexInMaster = -1
-        view.recipe = Recipe()
-        present(navController, animated: true)
-    }
-    
     //If we select a row, set data and then switch view controllers.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
@@ -69,6 +86,7 @@ class RecipeTableVC: UITableViewController {
             navController.modalPresentationStyle = .fullScreen
             let view = navController.topViewController as! EditRecipeTableVC
             view.recipeIndexInMaster = indexPath.row
+            view.isNewCell = false
             view.recipe = RecipeData.sharedData.recipes[indexPath.row]
             present(navController, animated: true)
         
@@ -78,6 +96,14 @@ class RecipeTableVC: UITableViewController {
             let view = navController.topViewController as! ViewRecipeVC
             view.recipe = RecipeData.sharedData.recipes[indexPath.row]
             present(navController, animated: true)
+        }
+    }
+    
+    
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            RecipeData.sharedData.recipes.remove(at: indexPath.row)
+            recipeTable.reloadData()
         }
     }
     

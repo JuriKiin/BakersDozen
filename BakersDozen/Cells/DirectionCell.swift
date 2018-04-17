@@ -22,6 +22,7 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     let timerOnImage = UIImage(named: "Timer_On")
     let timerOffImage = UIImage(named: "Timer_Off")
     var hasTimer: Bool = true
+    var index: Int!
     
     var delegate: DirectionCellDelegate?
     
@@ -97,5 +98,4 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         }
         return true
     }
-
 }

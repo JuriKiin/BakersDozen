@@ -33,7 +33,11 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Baker's Dozen" id="At8-bi-UTI">
-                        <barButtonItem key="leftBarButtonItem" title="Item" systemItem="edit" id="goZ-XR-oem"/>
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="goZ-XR-oem">
+                            <connections>
+                                <action selector="editTable:" destination="vhh-WU-trW" id="pwT-OK-MDs"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="hlY-LD-iNI">
                             <connections>
                                 <action selector="AddRecipe:" destination="vhh-WU-trW" id="ZYf-yg-oNK"/>
@@ -41,6 +45,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="goZ-XR-oem" id="dvD-er-x61"/>
                         <outlet property="recipeTable" destination="8t1-VW-iMG" id="0k7-Mg-Wfo"/>
                     </connections>
                 </tableViewController>
@@ -63,13 +68,13 @@
                                         <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
                                         <subviews>
                                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="bMe-UR-6iC">
-                                                <rect key="frame" x="0.0" y="0.0" width="375" height="161"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="375" height="201"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="height" constant="161" id="w9z-8i-GW5"/>
+                                                    <constraint firstAttribute="height" constant="201" id="w9z-8i-GW5"/>
                                                 </constraints>
                                             </imageView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PHq-hm-YKU">
-                                                <rect key="frame" x="268" y="54" width="92" height="92"/>
+                                                <rect key="frame" x="271" y="92" width="92" height="92"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="92" id="kua-kg-gcN"/>
                                                     <constraint firstAttribute="height" constant="92" id="uvU-e6-hjv"/>
@@ -83,8 +88,8 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
                                             <constraint firstItem="bMe-UR-6iC" firstAttribute="leading" secondItem="BDF-rV-d2A" secondAttribute="leading" id="0Nz-AG-eyf"/>
-                                            <constraint firstItem="PHq-hm-YKU" firstAttribute="top" secondItem="BDF-rV-d2A" secondAttribute="top" constant="54" id="dEi-s9-6ny"/>
-                                            <constraint firstAttribute="trailing" secondItem="PHq-hm-YKU" secondAttribute="trailing" constant="15" id="dwh-fm-Hdz"/>
+                                            <constraint firstItem="PHq-hm-YKU" firstAttribute="top" secondItem="BDF-rV-d2A" secondAttribute="top" constant="92" id="dEi-s9-6ny"/>
+                                            <constraint firstAttribute="trailing" secondItem="PHq-hm-YKU" secondAttribute="trailing" constant="12" id="dwh-fm-Hdz"/>
                                             <constraint firstAttribute="trailing" secondItem="bMe-UR-6iC" secondAttribute="trailing" id="iak-QO-MDW"/>
                                             <constraint firstItem="bMe-UR-6iC" firstAttribute="top" secondItem="BDF-rV-d2A" secondAttribute="top" id="lZi-qa-3ws"/>
                                         </constraints>
