@@ -48,7 +48,6 @@ class RecipeTableVC: UITableViewController {
         cell.recipe = RecipeData.sharedData.recipes[indexPath.row]
         cell.textLabel?.text = RecipeData.sharedData.recipes[indexPath.row].title
         cell.backgroundColor = RecipeData.sharedData.recipes[indexPath.row].color
-        print(cell.recipe.image)
         return cell
     }
     
