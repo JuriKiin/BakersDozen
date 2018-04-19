@@ -49,7 +49,6 @@ class Ingredient {
     }
 }
 
-
 class Recipe {
     
     var title: String
@@ -99,8 +98,31 @@ class Recipe {
     
     func SetColor(){
         
-        //Change once decided on how to display color.
-        self.color = .red
+        let colors:[UIColor] = [
+            UIColor(red: 219/255, green: 213/255, blue: 110/255, alpha: 1),
+            UIColor(red: 136/255, green: 171/255, blue: 117/255, alpha: 1),
+            UIColor(red: 45/255, green: 147/255, blue: 173/255, alpha: 1),
+            UIColor(red: 125/255, green: 124/255, blue: 132/255, alpha: 1),
+            UIColor(red: 136/255, green: 171/255, blue: 117/255, alpha: 1),
+            UIColor(red: 222/255, green: 143/255, blue: 110/255, alpha: 1),
+            ]
+        let random = Int(arc4random_uniform(UInt32(colors.count)))
+        self.color = colors[random]
     }
-    
 }
+
+extension CGFloat {
+    static func random() -> CGFloat {
+        return CGFloat(arc4random()) / CGFloat(UInt32.max)
+    }
+}
+
+extension UIColor {
+    static func random() -> UIColor {
+        return UIColor(red:   .random(),
+                       green: .random(),
+                       blue:  .random(),
+                       alpha: 1.0)
+    }
+}
+

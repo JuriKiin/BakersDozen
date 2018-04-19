@@ -37,7 +37,6 @@ class ViewRecipeVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //Based on rating, disable the correct number of stars.
         
         //Load content
         pageTitle.title = recipe.title
@@ -54,8 +53,11 @@ class ViewRecipeVC: UIViewController {
     func FillContent(name: String, with: [Any]) {
         //Create header
         let headerLabel = UILabel()
-        headerLabel.text = name
+        headerLabel.attributedText = NSAttributedString(string: name, attributes:
+            [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
         headerLabel.font = headerLabel.font.withSize(headerFontSize)
+        headerLabel.lineBreakMode = .byTruncatingTail
+        headerLabel.numberOfLines = 1
         
         //Set headerPosition
         if lastLabel == nil {
@@ -73,8 +75,10 @@ class ViewRecipeVC: UIViewController {
             for i in 0 ..< with.count {
                 let dataLabel = UILabel()
                 //Format string (possibly attributed string formatting HERE.
-                dataLabel.text = directions[i].data
+                dataLabel.text = "\u{2022} \(directions[i].data)"
                 dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
+                dataLabel.lineBreakMode = .byWordWrapping
+                dataLabel.numberOfLines = 0
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
                 dataLabel.sizeToFit()
@@ -87,8 +91,10 @@ class ViewRecipeVC: UIViewController {
             for i in 0 ..< with.count {
                 let dataLabel = UILabel()
                 //Format string (possibly attributed string formatting HERE.
-                dataLabel.text = content[i].data
+                dataLabel.text = "\u{2022} \(content[i].data)"
                 dataLabel.font = dataLabel.font.withSize(dataLabelFontSize)
+                dataLabel.lineBreakMode = .byWordWrapping
+                dataLabel.numberOfLines = 0
                 dataLabel.center = CGPoint(x: 15, y: lastLabel.center.y + verticalPadding)
                 lastLabel = dataLabel   //Set the last label so we can access it's position next time we loop through to set!
                 dataLabel.sizeToFit()
@@ -100,8 +106,11 @@ class ViewRecipeVC: UIViewController {
     
     func AddNotes(notes: String) {
         let headerLabel = UILabel()
-        headerLabel.text = "Notes"
+        headerLabel.attributedText = NSAttributedString(string: "Notes", attributes:
+            [.underlineStyle: NSUnderlineStyle.styleSingle.rawValue])
         headerLabel.font = headerLabel.font.withSize(headerFontSize)
+        headerLabel.lineBreakMode = .byTruncatingTail
+        headerLabel.numberOfLines = 1
         
         //Set headerPosition
         if lastLabel == nil {

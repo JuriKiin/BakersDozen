@@ -9,7 +9,7 @@
 import UIKit
 
 public class RecipeData {
-    
+
     static let sharedData = RecipeData()
     
     var recipes = [Recipe]()
@@ -18,9 +18,9 @@ public class RecipeData {
         let testCell = Recipe()
         
         testCell.title = "Blueberry Muffins"
-        testCell.ingredients = [Ingredient(data: "Milk", isNew: false),Ingredient(data: "Eggs", isNew: false)]
+        testCell.ingredients = [Ingredient(data: "Milkaoiehgsoperughsoerghseopufghsoasdasdasasd", isNew: false),Ingredient(data: "Eggs", isNew: false)]
         testCell.directions = [Direction(data: "Bake", hasTimer: false, ingredients: [Ingredient(data: "Milk", isNew: false)])]
-        testCell.notes = "Testing Note.."
+        testCell.notes = "Testing Note..gjnoihg[aoiehgsoperughsoerghseopufghso;fghkefghsiuehgfwieursghwisufghsiughwiserughpisuerhgfpsieufhgspieufhgspefuhgspifughpseufhgspefugdhu"
         testCell.image = UIImage(contentsOfFile: "default.png")
         
         recipes.append(testCell)

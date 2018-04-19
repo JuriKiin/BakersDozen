@@ -15,6 +15,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        Thread.sleep(forTimeInterval: 5.0)
+        
+        if let url = Bundle.main.url(forResource: "recipes", withExtension: "json") {
+            do {
+                let data = try Data(contentsOf: url)
+                let decoder = JSONDecoder()
+                //let jsonData = try decoder.decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
+                //RecipeData.sharedData.recipes = jsonData
+            } catch {
+                print("error:\(error)")
+            }
+        }
+        
+        
         return true
     }
 
@@ -24,7 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
-        //let recipes = RecipeData.sharedData.recipes
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -36,9 +51,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        let recipes = RecipeData.sharedData.recipes
+        // Get the url of Persons.json in document directory
+        guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+        let fileUrl = documentDirectoryUrl.appendingPathComponent("recipes.json")
+        
+        // Transform array into data and save it into file
+        do {
+            let data = try JSONSerialization.data(withJSONObject: recipes, options: [])
+            try data.write(to: fileUrl, options: [])
+        } catch {
+            print(error)
+        }
     }
 
 
 }
-

@@ -37,6 +37,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 recipe.title = "New Recipe"
             }
             //Generate a new ID and add to the singleton data.
+            recipe.SetColor()
             recipe.GenerateNewId()
             RecipeData.sharedData.recipes.append(recipe)
         } else {
@@ -105,7 +106,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         else if direction.isNewDirection {
             recipe.directions.append(direction)
         } else {
-            recipe.directions[direction.index].data = direction.data
+            recipe.directions[direction.index] = direction
         }
         editTableView.reloadData()
     }
@@ -132,7 +133,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 //UITableView Delegate
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 7
+        return 6
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -142,14 +143,12 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         case 1:
             return 1
         case 2:
-            return 1
-        case 3:
             return recipe.ingredients.count + 1
-        case 4:
+        case 3:
             return recipe.directions.count + 1
-        case 5:
+        case 4:
             return 1
-        case 6:
+        case 5:
             return 1
         default:
             return 0
@@ -180,8 +179,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                cell.photoImage.image = defaultImage
             }
             return cell
-       // case 1:
-        case 2: //We are adding a Custom Recipe Name Cell
+        case 1: //We are adding a Custom Recipe Name Cell
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Name", for: indexPath) as! NameCell
             //If our recipe name is the default, set placeholder text
             cell.delegate = self
@@ -192,7 +190,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.nameTextField.text = recipe.title
             }
             return cell
-        case 3: //We are adding a Custom Ingredient Cell
+        case 2: //We are adding a Custom Ingredient Cell
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Ingredient", for: indexPath) as! IngredientCell
             cell.ingredientField.text = nil
             cell.ingredientField.placeholder = nil
@@ -208,32 +206,29 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.ingredientField.text = recipe.ingredients[indexPath.row].data
             }
            return cell
-        case 4: //We are adding a direction
+        case 3: //We are adding a direction
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Direction", for: indexPath) as! DirectionCell
             cell.directionTextField.text = nil
             cell.directionTextField.placeholder = nil
             cell.ingredients = []
             cell.delegate = self
-            cell.direction.index = indexPath.row
             //If we have no directions, set the placeholder direction text
             if recipe.directions.count == indexPath.row {
                 cell.directionTextField.placeholder = "Enter Direction"
+                cell.direction = Direction()
                 cell.direction.isNewDirection = true
-                cell.ingredients = recipe.ingredients
                 cell.connectedIngredients = []
                 cell.ingredientView.reloadData()
             } else {
                 //Otherwise, set the direction text for the cell.
-                cell.directionTextField.text = recipe.directions[indexPath.row].data
-                cell.direction.isNewDirection = false
-                cell.ingredients = recipe.ingredients
-                cell.connectedIngredients = recipe.directions[indexPath.row].ingredients
-                cell.ingredientView.reloadData()
+                cell.direction = recipe.directions[indexPath.row]
             }
+            cell.direction.index = indexPath.row
             cell.ingredients = recipe.ingredients
+            cell.initDirection()
             return cell
 
-        case 5:
+        case 4:
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Note", for: indexPath) as! NoteCell
             cell.delegate = self
             if recipe.notes == "" {
@@ -242,7 +237,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.textArea.text = recipe.notes
             }
             return cell
-        case 6:
+        case 5:
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Delete", for: indexPath) as! DeleteCell
             cell.delegate = self
             return cell
@@ -257,7 +252,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         switch indexPath.section {
         case 0:
             return 150.0
-        case 5:
+        case 4:
             return 100.0
         default:
             return 50.0
@@ -266,13 +261,13 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
-        case 2:
+        case 1:
             return "Recipe Name"
-        case 3:
+        case 2:
             return "Ingredients"
-        case 4:
+        case 3:
             return "Directions"
-        case 5:
+        case 4:
             return "Notes"
         default:
             return ""
@@ -282,9 +277,9 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     //Distinguish which sections we can edit the table rows.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         switch indexPath.section {
-        case 3:
+        case 2:
             return true
-        case 4:
+        case 3:
             return true
         default:
             return false
@@ -296,11 +291,11 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         if editingStyle == .delete {
             
             switch indexPath.section {
-            case 3:
+            case 2:
                 if indexPath.row < recipe.ingredients.count {
                     recipe.ingredients.remove(at: indexPath.row)
                 }
-            case 4:
+            case 3:
                 if indexPath.row < recipe.directions.count {
                     recipe.directions.remove(at: indexPath.row)
                 }
@@ -315,6 +310,9 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 }
 
 extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate, DeleteCellDelegate {
+    func updateDirectionTimer(_ atIndex: Int, with value: Bool) {
+        recipe.directions[atIndex].hasTimer = value
+    }
     
     func deleteCell(_ cell: DeleteCell) {
         if isEditing {

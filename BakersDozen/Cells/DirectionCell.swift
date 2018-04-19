@@ -11,6 +11,7 @@ import UIKit
 
 protocol DirectionCellDelegate {
     func directionCell (_ directionCell: DirectionCell, didAddDirection direction: Direction)
+    func updateDirectionTimer (_ atIndex: Int, with value: Bool)
 }
 
 class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDelegate, UICollectionViewDataSource {
@@ -21,12 +22,10 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     let timerOnImage = UIImage(named: "Timer_On")
     let timerOffImage = UIImage(named: "Timer_Off")
-    var hasTimer: Bool = false
-    var index: Int!
     
     var delegate: DirectionCellDelegate?
     
-    var direction: Direction = Direction()
+    var direction: Direction!
     var ingredients: [Ingredient] = []
     var connectedIngredients: [Ingredient] = []
     
@@ -73,19 +72,26 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
         
-        checkTimer()
-        
         timerImage?.isUserInteractionEnabled = true
         timerImage?.addGestureRecognizer(tapGesture)
     }
     
     @objc func ToggleTimer() {
-        hasTimer = !hasTimer
+        direction.hasTimer = !direction.hasTimer
+        delegate?.updateDirectionTimer(direction.index, with: direction.hasTimer)
         checkTimer()
+        
+    }
+    
+    func initDirection(){
+        directionTextField.text = direction.data
+        connectedIngredients = direction.ingredients
+        checkTimer()
+        ingredientView.reloadData()
     }
     
     func checkTimer() {
-        if hasTimer {
+        if direction.hasTimer {
             timerImage.image = timerOnImage
         } else {
             timerImage.image = timerOffImage
@@ -95,7 +101,6 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if directionTextField.text != "" {
             direction.data = directionTextField.text!
-            direction.hasTimer = hasTimer
             direction.ingredients = connectedIngredients
             delegate?.directionCell(self, didAddDirection: direction)
         }

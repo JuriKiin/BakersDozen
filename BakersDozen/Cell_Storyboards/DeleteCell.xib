@@ -17,16 +17,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zhb-Ir-lXU">
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zhb-Ir-lXU">
                         <rect key="frame" x="120" y="0.0" width="135" height="44"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <state key="normal" title="Delete"/>
                         <connections>
                             <action selector="deleteCell:" destination="67N-FF-uSP" eventType="touchUpInside" id="UeP-OE-3g1"/>
                         </connections>
                     </button>
                 </subviews>
+                <constraints>
+                    <constraint firstItem="Zhb-Ir-lXU" firstAttribute="top" secondItem="HgB-e6-bSr" secondAttribute="top" id="Jhp-sJ-XiT"/>
+                    <constraint firstItem="Zhb-Ir-lXU" firstAttribute="centerY" secondItem="HgB-e6-bSr" secondAttribute="centerY" id="qkP-wc-LFz"/>
+                </constraints>
             </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="Zhb-Ir-lXU" firstAttribute="leading" secondItem="67N-FF-uSP" secondAttribute="leading" constant="120" id="VcG-uU-phi"/>
+                <constraint firstAttribute="trailing" secondItem="Zhb-Ir-lXU" secondAttribute="trailing" constant="120" id="oPl-AQ-eUL"/>
+            </constraints>
             <point key="canvasLocation" x="-36.5" y="-85"/>
         </tableViewCell>
     </objects>
