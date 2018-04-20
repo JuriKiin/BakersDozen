@@ -11,14 +11,14 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="Delete" id="67N-FF-uSP" customClass="DeleteCell" customModule="BakersDozen" customModuleProvider="target">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="67N-FF-uSP" id="HgB-e6-bSr">
-                <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="375" height="99.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zhb-Ir-lXU">
-                        <rect key="frame" x="120" y="0.0" width="135" height="44"/>
+                        <rect key="frame" x="16" y="24" width="343" height="51"/>
                         <state key="normal" title="Delete"/>
                         <connections>
                             <action selector="deleteCell:" destination="67N-FF-uSP" eventType="touchUpInside" id="UeP-OE-3g1"/>
@@ -26,13 +26,14 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="Zhb-Ir-lXU" firstAttribute="top" secondItem="HgB-e6-bSr" secondAttribute="top" id="Jhp-sJ-XiT"/>
+                    <constraint firstItem="Zhb-Ir-lXU" firstAttribute="top" secondItem="HgB-e6-bSr" secondAttribute="top" constant="24" id="Jhp-sJ-XiT"/>
+                    <constraint firstAttribute="bottom" secondItem="Zhb-Ir-lXU" secondAttribute="bottom" constant="24.5" id="ULD-y1-5Ix"/>
                     <constraint firstItem="Zhb-Ir-lXU" firstAttribute="centerY" secondItem="HgB-e6-bSr" secondAttribute="centerY" id="qkP-wc-LFz"/>
                 </constraints>
             </tableViewCellContentView>
             <constraints>
-                <constraint firstItem="Zhb-Ir-lXU" firstAttribute="leading" secondItem="67N-FF-uSP" secondAttribute="leading" constant="120" id="VcG-uU-phi"/>
-                <constraint firstAttribute="trailing" secondItem="Zhb-Ir-lXU" secondAttribute="trailing" constant="120" id="oPl-AQ-eUL"/>
+                <constraint firstItem="Zhb-Ir-lXU" firstAttribute="leading" secondItem="67N-FF-uSP" secondAttribute="leading" constant="16" id="VcG-uU-phi"/>
+                <constraint firstAttribute="trailing" secondItem="Zhb-Ir-lXU" secondAttribute="trailing" constant="16" id="oPl-AQ-eUL"/>
             </constraints>
             <point key="canvasLocation" x="-36.5" y="-85"/>
         </tableViewCell>

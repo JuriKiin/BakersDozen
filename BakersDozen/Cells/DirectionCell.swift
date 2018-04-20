@@ -29,14 +29,20 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     var ingredients: [Ingredient] = []
     var connectedIngredients: [Ingredient] = []
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 1
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ingredients.count
+       // return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
         cell.name.text = ingredients[indexPath.row].data
+      //  cell.name.text = "Working"
         cell.name.layer.borderColor = UIColor.black.cgColor
         cell.name.layer.borderWidth = 2.0
         
@@ -53,7 +59,7 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
             if ingredients[i].data == cell.name.text! {
                 ingredients.remove(at: i)
             } else {
-                ingredients.append(Ingredient(data: cell.name.text!, isNew: false))
+                direction.ingredients.append(Ingredient(data: cell.name.text!, isNew: false))
             }
         }
     }
@@ -65,7 +71,6 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         ingredientView.dataSource = self
         
         ingredientView.register(UINib(nibName: "ingredientCell", bundle: nil), forCellWithReuseIdentifier: "ingredientCell")
-        ingredientView.reloadData()
         
         directionTextField.delegate = self
         directionTextField.returnKeyType = .done
@@ -96,6 +101,11 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         } else {
             timerImage.image = timerOffImage
         }
+    }
+    
+    func ReloadIngredientData(data: [Ingredient]){
+        ingredients = data
+        ingredientView.reloadData()
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

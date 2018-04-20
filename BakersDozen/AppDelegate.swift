@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         
-        Thread.sleep(forTimeInterval: 5.0)
+       // Thread.sleep(forTimeInterval: 5.0)
         
         if let url = Bundle.main.url(forResource: "recipes", withExtension: "json") {
             do {

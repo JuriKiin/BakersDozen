@@ -46,9 +46,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         }
         
         //Load MainView.
-        let navController = storyboard?.instantiateViewController(withIdentifier: "MainView") as! UINavigationController
-        navController.modalPresentationStyle = .fullScreen
-        present(navController, animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
 //View Did Load
@@ -57,6 +55,10 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         
         //Set the delegate
         editTableView.delegate = self
+        
+        editTableView.estimatedRowHeight = 100.0
+        editTableView.rowHeight = UITableViewAutomaticDimension
+        editTableView.separatorStyle = .none
         
         //Set helper variables
         previousIngredients = recipe.ingredients.count
@@ -86,6 +88,14 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             recipe.ingredients[data.index].data = data.data
         }
         editTableView.reloadData()
+        //Update the ingredient views for each direction.
+        for cell in editTableView.visibleCells {
+            let path = editTableView.indexPath(for: cell)
+            if path?.section == 3 {
+                let dirCell = cell as! DirectionCell
+                dirCell.ReloadIngredientData(data: recipe.ingredients)
+            }
+        }
     }
     
     //Changes the recipe name
@@ -216,14 +226,16 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             if recipe.directions.count == indexPath.row {
                 cell.directionTextField.placeholder = "Enter Direction"
                 cell.direction = Direction()
+                cell.direction.index = 0
                 cell.direction.isNewDirection = true
                 cell.connectedIngredients = []
                 cell.ingredientView.reloadData()
             } else {
                 //Otherwise, set the direction text for the cell.
                 cell.direction = recipe.directions[indexPath.row]
+                cell.direction.index = indexPath.row
             }
-            cell.direction.index = indexPath.row
+            
             cell.ingredients = recipe.ingredients
             cell.initDirection()
             return cell
@@ -248,16 +260,18 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch indexPath.section {
-        case 0:
-            return 150.0
-        case 4:
-            return 100.0
-        default:
-            return 50.0
-        }
-    }
+//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        switch indexPath.section {
+//        case 0:
+//            return 150.0
+//        case 4:
+//            return 100.0
+//        case 3:
+//            return 300.0
+//        default:
+//            return 50.0
+//        }
+//    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -311,7 +325,16 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 
 extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate, DeleteCellDelegate {
     func updateDirectionTimer(_ atIndex: Int, with value: Bool) {
-        recipe.directions[atIndex].hasTimer = value
+        if recipe.directions.count == 0 {
+            //Set back our updated cell
+            let indexPath = IndexPath(row: atIndex, section: 3)
+            let cell = editTableView.cellForRow(at: indexPath) as! DirectionCell
+            cell.direction.isNewDirection = false
+            cell.direction.hasTimer = value
+            cell.direction.index = 0
+        } else{
+            recipe.directions[atIndex].hasTimer = value
+        }
     }
     
     func deleteCell(_ cell: DeleteCell) {
