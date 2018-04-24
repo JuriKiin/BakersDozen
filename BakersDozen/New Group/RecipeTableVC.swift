@@ -12,10 +12,18 @@ class RecipeTableVC: UITableViewController {
     
     var navController:UINavigationController!
     var recipe: Recipe!
+    var shownRecipeIndex: Int!
+    
+    //RecipeView Variables
+    let headerFontSize: CGFloat = 20
     
     @IBOutlet var recipeTable: UITableView!
     @IBOutlet var editButton: UIBarButtonItem!
     
+    @IBOutlet var recipeContentView: UIView!
+    @IBOutlet var recipeImage: UIImageView!
+    @IBOutlet var recipeTextView: UITextView!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         //LoadRecipes()
@@ -24,6 +32,11 @@ class RecipeTableVC: UITableViewController {
         recipeTable.allowsSelectionDuringEditing = true
         recipeTable.separatorStyle = .none
         recipeTable.backgroundColor = UIColor(red: 0.28, green: 0.28, blue: 0.28, alpha: 1)
+        
+        recipeContentView.isHidden = true
+        shownRecipeIndex = -1
+        recipeContentView.center = CGPoint(x: recipeContentView.center.x, y: self.view.frame.height + recipeContentView.frame.height / 2)
+        recipeTextView.text! = ""
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 0.819, green: 0.235, blue: 0.403, alpha: 1)
         navigationController?.navigationBar.tintColor = .white    }
@@ -48,9 +61,9 @@ class RecipeTableVC: UITableViewController {
     }
     
 //helper functions
-    func LoadRecipes() -> [Recipe] {
-        //Load recipes from storage
-        return []
+    
+    func ReloadTable(){
+        recipeTable.reloadData()
     }
     
     func toggleEditTable() {
@@ -91,7 +104,12 @@ class RecipeTableVC: UITableViewController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeCell
         cell.recipe = RecipeData.sharedData.recipes[indexPath.section]
-        cell.layer.cornerRadius = 8
+        if indexPath.section == shownRecipeIndex {
+            cell.layer.cornerRadius = 0
+        } else {
+            cell.layer.cornerRadius = 8
+        }
+        
         cell.textLabel?.text = RecipeData.sharedData.recipes[indexPath.section].title
         cell.backgroundColor = RecipeData.sharedData.recipes[indexPath.section].color
         return cell
@@ -99,7 +117,6 @@ class RecipeTableVC: UITableViewController {
     
     //If we select a row, set data and then switch view controllers.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         //If we're editing the table, load the Edit View with the recipe selected
         if recipeTable.isEditing {
             navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController
@@ -110,15 +127,99 @@ class RecipeTableVC: UITableViewController {
             view.recipe = RecipeData.sharedData.recipes[indexPath.section]
             present(navController, animated: true)
         
-        } else {    //Load View Recipe VC with selected Recipe.
-            navController = storyboard?.instantiateViewController(withIdentifier: "ViewRecipeNavigation") as! UINavigationController
-            navController.modalPresentationStyle = .fullScreen
-            let view = navController.topViewController as! ViewRecipeVC
-            view.recipe = RecipeData.sharedData.recipes[indexPath.section]
-            present(navController, animated: true)
+        } else {    //Load Recipe View
+            recipe = RecipeData.sharedData.recipes[indexPath.section]
+            //Populate Recipe View
+            populateRecipeView(atIndex: indexPath.section)
+            
+            //TriggerAnimation
+            recipeViewShow(recipe: RecipeData.sharedData.recipes[indexPath.section], atIndex: indexPath.section)
+            
         }
     }
     
+    func populateRecipeView(atIndex: Int){
+        let tempRecipe = RecipeData.sharedData.recipes[atIndex] //Get the Recipe
+        recipeImage.image = tempRecipe.image   //Set the Recipe Image
+        let recipeString = NSMutableAttributedString()
+        //Add Ingredient Header
+        recipeString.append(createHeader(text: "Ingredients"))
+        //Add Ingredients
+        for i in 0 ..< tempRecipe.ingredients.count {
+            recipeString.append(createData(data: tempRecipe.ingredients[i].data, isList: true))
+        }
+        //Add Direction Header
+        recipeString.append(createHeader(text: "Directions"))
+        //Add Directions
+        
+        for i in 0 ..< tempRecipe.directions.count {
+            recipeString.append(createData(data: tempRecipe.directions[i].data, isList: true))
+        }
+        //Add Note Header
+        recipeString.append(createHeader(text: "Notes"))
+        //Add Notes
+        recipeString.append(createData(data: tempRecipe.notes, isList: false))
+        
+        //Add Final String to the view.
+        recipeTextView.attributedText! = recipeString
+    }
+    
+    func createData(data: String, isList: Bool) -> NSAttributedString {
+        let ingredientAttributes: [NSAttributedStringKey : Any] = [:
+        ]
+        if isList {
+            return NSAttributedString(string: "\u{2022} \(data) \n", attributes: ingredientAttributes)
+        } else {
+            return NSAttributedString(string: "\(data) \n", attributes: ingredientAttributes)
+        }
+        
+    }
+    
+    func createHeader(text: String) -> NSAttributedString{
+        
+        let headerAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.underlineStyle: NSUnderlineStyle.styleSingle.rawValue,
+            NSAttributedStringKey.font: UIFont(name: "AvenirNext-Bold", size: headerFontSize)!
+        ]
+        return NSAttributedString(string: "\(text) \n", attributes: headerAttributes)
+    }
+    
+    func recipeViewShow(recipe: Recipe, atIndex: Int){
+        if atIndex == shownRecipeIndex {
+             recipeContentView.isHidden = !recipeContentView.isHidden
+             shownRecipeIndex = -1
+        } else {
+            recipeContentView.isHidden = false
+             shownRecipeIndex = atIndex
+        }
+       
+       
+        let cell = recipeTable.visibleCells[atIndex]
+        if !recipeContentView.isHidden {
+            animateRecipeView(true, atIndex: atIndex)
+            cell.layer.cornerRadius = 0
+        } else {
+            animateRecipeView(false, atIndex: atIndex)
+            cell.layer.cornerRadius = 8
+        }
+    }
+    
+    func animateRecipeView(_ transitionOn: Bool, atIndex: Int){
+        UIView.animate(withDuration:0.5, delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.0, options: [],
+            animations: {
+                self.recipeContentView.center = CGPoint(x: self.recipeContentView.center.x, y: self.tableView.visibleCells[atIndex].frame.maxY + self.recipeContentView.frame.height / 2)
+            
+        }, completion: nil)
+    }
+    
+    @IBAction func shareRecipe(_ sender: Any) {
+        let shareText = "Check out the recipe I made for \(recipe.title) on Baker's Dozen!"
+        let objectsToShare = [recipe.image!, shareText] as [Any]
+        let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
+        activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
+        activityVC.popoverPresentationController?.sourceView = view
+        self.present(activityVC, animated: true, completion: nil)
+    }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {

@@ -42,8 +42,14 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
         cell.name.text = ingredients[indexPath.row].data
-      //  cell.name.text = "Working"
-        cell.name.layer.borderColor = UIColor.black.cgColor
+        
+        for i in 0 ..< direction.ingredients.count {
+            if direction.ingredients[i].data == connectedIngredients[i].data {
+                cell.name.layer.borderColor = UIColor.blue.cgColor
+            } else {
+                cell.name.layer.borderColor = UIColor.black.cgColor
+            }
+        }
         cell.name.layer.borderWidth = 2.0
         
         //Add touch hold recognizer
@@ -55,13 +61,14 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     @objc func ToggleIngredientSelected(press: UITapGestureRecognizer) {
         let cell = press.view as! IngredientCollectionCell
-        for i in 0 ..< ingredients.count {
-            if ingredients[i].data == cell.name.text! {
+        for i in 0 ..< direction.ingredients.count {
+            if direction.ingredients[i].data == cell.name.text! {
                 ingredients.remove(at: i)
             } else {
                 direction.ingredients.append(Ingredient(data: cell.name.text!, isNew: false))
             }
         }
+        ingredientView.reloadData()
     }
     
     override func awakeFromNib() {

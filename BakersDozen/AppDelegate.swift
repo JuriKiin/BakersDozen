@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             do {
                 let data = try Data(contentsOf: url)
                 let decoder = JSONDecoder()
-                //let jsonData = try decoder.decode(<#T##type: Decodable.Protocol##Decodable.Protocol#>, from: <#T##Data#>)
+                //let jsonData = try decoder.decode(RecipeData.self, from: data)
                 //RecipeData.sharedData.recipes = jsonData
             } catch {
                 print("error:\(error)")
