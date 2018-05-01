@@ -22,21 +22,24 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="YBl-fP-7Os">
-                                    <rect key="frame" x="0.0" y="113" width="375" height="420"/>
+                                    <rect key="frame" x="0.0" y="113" width="375" height="381"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <constraints>
-                                        <constraint firstAttribute="height" constant="420" id="41x-uw-Tux"/>
+                                        <constraint firstAttribute="height" constant="381" id="41x-uw-Tux"/>
                                     </constraints>
                                     <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                    <fontDescription key="fontDescription" name="HiraginoSans-W3" family="Hiragino Sans" pointSize="17"/>
                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 </textView>
-                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="default.png" translatesAutoresizingMaskIntoConstraints="NO" id="pea-J1-xaH">
+                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="muffin" translatesAutoresizingMaskIntoConstraints="NO" id="pea-J1-xaH">
                                     <rect key="frame" x="0.0" y="-1" width="375" height="114"/>
                                 </imageView>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nlc-H9-1FI">
                                     <rect key="frame" x="152" y="495" width="71" height="30"/>
                                     <state key="normal" title="Make this!"/>
+                                    <connections>
+                                        <action selector="makeRecipe:" destination="vhh-WU-trW" eventType="touchUpInside" id="tQ0-HQ-dYv"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RzR-TA-O9k">
                                     <rect key="frame" x="328" y="78" width="40" height="30"/>
@@ -53,12 +56,13 @@
                                 <constraint firstAttribute="trailing" secondItem="YBl-fP-7Os" secondAttribute="trailing" id="9zk-AI-2PR"/>
                                 <constraint firstAttribute="bottom" secondItem="nlc-H9-1FI" secondAttribute="bottom" constant="8" id="AIc-p2-3QA"/>
                                 <constraint firstItem="nlc-H9-1FI" firstAttribute="leading" secondItem="Bf9-4H-zMm" secondAttribute="leading" constant="152" id="MDa-i3-Qfm"/>
+                                <constraint firstItem="RzR-TA-O9k" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Bf9-4H-zMm" secondAttribute="leading" constant="20" symbolic="YES" id="VkG-dr-zuR"/>
                                 <constraint firstItem="RzR-TA-O9k" firstAttribute="top" secondItem="Bf9-4H-zMm" secondAttribute="top" constant="78" id="WcJ-pt-YYD"/>
-                                <constraint firstAttribute="trailing" secondItem="nlc-H9-1FI" secondAttribute="trailing" constant="152" id="XXn-0z-MlT"/>
+                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nlc-H9-1FI" secondAttribute="trailing" id="XXn-0z-MlT"/>
                                 <constraint firstItem="pea-J1-xaH" firstAttribute="trailing" secondItem="YBl-fP-7Os" secondAttribute="trailing" id="etK-YD-w0i"/>
                                 <constraint firstAttribute="trailing" secondItem="RzR-TA-O9k" secondAttribute="trailing" constant="7" id="rdk-iO-aBk"/>
                                 <constraint firstItem="YBl-fP-7Os" firstAttribute="leading" secondItem="Bf9-4H-zMm" secondAttribute="leading" id="teO-6a-zaL"/>
-                                <constraint firstAttribute="bottom" secondItem="YBl-fP-7Os" secondAttribute="bottom" id="uLg-lg-tp0"/>
+                                <constraint firstAttribute="bottom" secondItem="YBl-fP-7Os" secondAttribute="bottom" constant="39" id="uLg-lg-tp0"/>
                                 <constraint firstItem="YBl-fP-7Os" firstAttribute="top" secondItem="pea-J1-xaH" secondAttribute="bottom" id="zge-Da-7yZ"/>
                             </constraints>
                         </view>
@@ -101,20 +105,64 @@
             </objects>
             <point key="canvasLocation" x="255.19999999999999" y="-40.029985007496258"/>
         </scene>
-        <!--View Controller-->
+        <!--Make RecipeVC-->
         <scene sceneID="g7Z-mR-g6K">
             <objects>
-                <viewController id="bDr-Fl-2gu" sceneMemberID="viewController">
+                <viewController id="bDr-Fl-2gu" customClass="MakeRecipeVC" customModule="BakersDozen" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="mId-Cs-wzc">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="iDJ-xA-qVH">
+                                <rect key="frame" x="0.0" y="539" width="375" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="relatedIngredientIdentifier" id="Pgs-L6-VyL">
+                                        <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Pgs-L6-VyL" id="QEU-GN-gTX">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                            </tableView>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <viewLayoutGuide key="safeArea" id="PwK-9b-TPt"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="Lne-XK-9jE" appends="YES" id="zfP-PW-WhQ"/>
+                            <outletCollection property="gestureRecognizers" destination="PgA-OJ-KL1" appends="YES" id="bzI-2I-oCg"/>
+                        </connections>
                     </view>
+                    <navigationItem key="navigationItem" id="ihy-dn-0Wy">
+                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="kb9-kT-FJu">
+                            <connections>
+                                <segue destination="NfO-d5-SLz" kind="unwind" unwindAction="unwindWithCancelTappedWithSegue:" id="DSQ-3J-RPg"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="pageHeader" destination="ihy-dn-0Wy" id="Qr1-9X-S5A"/>
+                        <outlet property="relatedIngredientsTable" destination="iDJ-xA-qVH" id="zgm-KY-e9J"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u1B-bL-vMc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="NfO-d5-SLz" userLabel="Exit" sceneMemberID="exit"/>
+                <swipeGestureRecognizer direction="right" id="Lne-XK-9jE">
+                    <connections>
+                        <action selector="swipeRightGesture:" destination="bDr-Fl-2gu" id="Nkd-6Z-AYo"/>
+                    </connections>
+                </swipeGestureRecognizer>
+                <swipeGestureRecognizer direction="left" id="PgA-OJ-KL1">
+                    <connections>
+                        <action selector="swipeLeftGesture:" destination="bDr-Fl-2gu" id="opq-lU-zMY"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="255" y="698"/>
+            <point key="canvasLocation" x="255" y="685"/>
         </scene>
         <!--New Recipe-->
         <scene sceneID="4zf-BL-kcB">
@@ -150,7 +198,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="awD-hf-SCY" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="gmb-vm-yE3" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="1758" y="-40"/>
+            <point key="canvasLocation" x="1202" y="-42"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PG7-tq-6PT">
@@ -186,10 +234,28 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lfU-BW-NFr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="972" y="-40.029985007496258"/>
+            <point key="canvasLocation" x="745" y="-41"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="iW0-cE-nJN">
+            <objects>
+                <navigationController storyboardIdentifier="MakeRecipeIdentifier" automaticallyAdjustsScrollViewInsets="NO" id="rId-3d-Aen" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Dhe-o9-mRc">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="bDr-Fl-2gu" kind="relationship" relationship="rootViewController" id="eXP-KJ-jp7"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1p6-wL-XGF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-461" y="685"/>
         </scene>
     </scenes>
     <resources>
-        <image name="default.png" width="364" height="200"/>
+        <image name="muffin" width="6000" height="4000"/>
     </resources>
 </document>

@@ -18,6 +18,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     //Helper vars for saving/editing a recipe
     var previousIngredients: Int!
     var previousDirections: Int!
+    var receipeTableDelegate: RecipeTableDelegate?
     
 //IBOutlets
     @IBOutlet var editTableView: UITableView!
@@ -25,7 +26,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     @IBOutlet var ingredientTextField: UITextField!
     @IBOutlet var directionTextField: UITextField!
     @IBOutlet var noteTextField: UITextField!
-    
     @IBOutlet var pageTitle: UINavigationItem!
     
 //IBActions
@@ -46,6 +46,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         }
         
         //Load MainView.
+        receipeTableDelegate?.reloadRecipeTable()
         dismiss(animated: true, completion: nil)
     }
     
@@ -228,7 +229,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.direction = Direction()
                 cell.direction.index = 0
                 cell.direction.isNewDirection = true
-                cell.connectedIngredients = []
                 cell.ingredientView.reloadData()
             } else {
                 //Otherwise, set the direction text for the cell.
@@ -259,19 +259,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             return cell
         }
     }
-    
-//    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        switch indexPath.section {
-//        case 0:
-//            return 150.0
-//        case 4:
-//            return 100.0
-//        case 3:
-//            return 300.0
-//        default:
-//            return 50.0
-//        }
-//    }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
@@ -335,6 +322,11 @@ extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, Name
         } else{
             recipe.directions[atIndex].hasTimer = value
         }
+    }
+    
+    func updateDirectionCell(_ directionCell: DirectionCell, withDirection: Direction) {
+        recipe.directions[withDirection.index] = withDirection
+        editTableView.reloadData()
     }
     
     func deleteCell(_ cell: DeleteCell) {

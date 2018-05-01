@@ -8,14 +8,33 @@
 
 import UIKit
 
-class Direction {
+class Direction: NSObject, Codable {
     var data: String
     var ingredients: [Ingredient]
     var hasTimer: Bool
     var isNewDirection: Bool
     var index: Int
     
-    init() {
+    enum CodingKeys: String, CodingKey {
+        case data
+        case ingredients
+        case hasTimer
+        case isNewDirection
+        case index
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        self.data = try values.decode(String.self, forKey: CodingKeys.data)
+        self.ingredients = try values.decode([Ingredient].self, forKey: CodingKeys.ingredients)
+        self.hasTimer = try values.decode(Bool.self, forKey: CodingKeys.hasTimer)
+        self.isNewDirection = try values.decode(Bool.self, forKey: CodingKeys.isNewDirection)
+        self.index = try values.decode(Int.self, forKey: CodingKeys.index)
+    }
+    
+    
+    override init() {
         data = ""
         hasTimer = false
         ingredients = []
@@ -31,25 +50,53 @@ class Direction {
     }
 }
 
-class Ingredient {
+class Ingredient: NSObject, Codable {
     var data: String
     var isNewIngredient: Bool
     var index: Int
     
-    init() {
+    
+    enum CodingKeys: String, CodingKey {
+        case data
+        case isNewIngredient
+        case index
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+
+        self.data = try values.decode(String.self, forKey: CodingKeys.data)
+        self.isNewIngredient = try values.decode(Bool.self, forKey: CodingKeys.isNewIngredient)
+        self.index = try values.decode(Int.self, forKey: CodingKeys.index)
+    }
+    
+    override init() {
         data = ""
         isNewIngredient = true
         index = -1
     }
     
-    init(data: String, isNew: Bool) {
+    init(data: String, isNew: Bool, atIndex: Int) {
         self.data = data
         self.isNewIngredient = isNew
-        self.index = -1
+        self.index = atIndex
+    }
+    
+    func isEqual(other: Ingredient) -> Bool {
+        return data == other.data && isNewIngredient == other.isNewIngredient
+    }
+    
+}
+
+
+public struct RecipeList {
+    var recipes: [Recipe]
+    init() {
+        recipes = [Recipe]()
     }
 }
 
-class Recipe {
+class Recipe: NSObject {
     
     var title: String
     var image: UIImage?
@@ -68,8 +115,18 @@ class Recipe {
     //App vars (for displaying recipe)
     var color: UIColor
     
+    enum CodingKeys: String, CodingKey {
+        case title
+        case image
+        case rating
+        case _id
+        case ingredients
+        case directions
+        case notes
+        case color
+    }
     //Default init.
-    init(){
+    override init(){
         title = ""
         rating = 0
         ingredients = []
@@ -88,8 +145,29 @@ class Recipe {
         self.notes = notes
         self._id = ""
         self.image = image
-        color = .white
+        self.color = .white
     }
+    
+    public required init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        
+        do {
+            self.title = try values.decode(String.self, forKey: CodingKeys.title)
+        } catch {
+            self.title = "New Recipe"
+        }
+        self.rating = try values.decode(Int.self, forKey: CodingKeys.rating)
+        self.ingredients = try values.decode([Ingredient].self, forKey: CodingKeys.ingredients)
+        self.directions = try values.decode([Direction].self, forKey: CodingKeys.directions)
+        self.notes = try values.decode(String.self, forKey: CodingKeys.notes)
+        self._id = try values.decode(String.self, forKey: CodingKeys._id)
+        
+        let imageURL = try values.decode(String.self, forKey: CodingKeys.image)
+        self.image = UIImage(named: imageURL)
+        let color = try values.decode([CGFloat].self, forKey: CodingKeys.color)
+        self.color = UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3])
+    }
+    
     
     //Generates a new ID for the recipe.
     func GenerateNewId() {

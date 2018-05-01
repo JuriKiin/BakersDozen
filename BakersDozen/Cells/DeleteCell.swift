@@ -11,8 +11,6 @@ import UIKit
 protocol DeleteCellDelegate {
     func deleteCell(_ cell: DeleteCell)
 }
-
-
 class DeleteCell: UITableViewCell {
 
     var delegate: DeleteCellDelegate?
@@ -20,5 +18,4 @@ class DeleteCell: UITableViewCell {
     @IBAction func deleteCell(_ sender: Any) {
         delegate?.deleteCell(self)
     }
-
 }

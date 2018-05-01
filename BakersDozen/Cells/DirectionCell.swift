@@ -11,6 +11,7 @@ import UIKit
 
 protocol DirectionCellDelegate {
     func directionCell (_ directionCell: DirectionCell, didAddDirection direction: Direction)
+    func updateDirectionCell (_ directionCell: DirectionCell, withDirection: Direction)
     func updateDirectionTimer (_ atIndex: Int, with value: Bool)
 }
 
@@ -27,7 +28,6 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     var direction: Direction!
     var ingredients: [Ingredient] = []
-    var connectedIngredients: [Ingredient] = []
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -41,10 +41,11 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
-        cell.name.text = ingredients[indexPath.row].data
+        cell.ingredient = ingredients[indexPath.row]
+        cell.name.text = cell.ingredient.data
         
         for i in 0 ..< direction.ingredients.count {
-            if direction.ingredients[i].data == connectedIngredients[i].data {
+            if cell.ingredient.isEqual(other: direction.ingredients[i]) {
                 cell.name.layer.borderColor = UIColor.blue.cgColor
             } else {
                 cell.name.layer.borderColor = UIColor.black.cgColor
@@ -61,14 +62,28 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     @objc func ToggleIngredientSelected(press: UITapGestureRecognizer) {
         let cell = press.view as! IngredientCollectionCell
-        for i in 0 ..< direction.ingredients.count {
-            if direction.ingredients[i].data == cell.name.text! {
-                ingredients.remove(at: i)
-            } else {
-                direction.ingredients.append(Ingredient(data: cell.name.text!, isNew: false))
+        print(cell.name.text!)
+        
+        if direction.ingredients.count == 0 {
+            direction.ingredients.append(cell.ingredient)
+            ingredientView.reloadData()
+            print("Adding: \(cell.name.text!) at index: \(0)")
+        } else {
+            for i in 0 ..< direction.ingredients.count {
+                if  direction.ingredients[i].isEqual(other: cell.ingredient) {
+                    print("removing: \(direction.ingredients[i].data)")
+                    direction.ingredients.remove(at: i)
+                    ingredientView.reloadData()
+                    return
+                } else {
+                    direction.ingredients.append(Ingredient(data: cell.name.text!, isNew: false, atIndex: direction.ingredients.count-1))
+                    print("Adding: \(cell.name.text!) at index: \(direction.ingredients.count-1)")
+                    ingredientView.reloadData()
+                    return
+                }
             }
+            delegate?.updateDirectionCell(self, withDirection: direction)
         }
-        ingredientView.reloadData()
     }
     
     override func awakeFromNib() {
@@ -90,14 +105,13 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     
     @objc func ToggleTimer() {
         direction.hasTimer = !direction.hasTimer
-        delegate?.updateDirectionTimer(direction.index, with: direction.hasTimer)
+        delegate?.updateDirectionCell(self, withDirection: direction)
         checkTimer()
         
     }
     
     func initDirection(){
         directionTextField.text = direction.data
-        connectedIngredients = direction.ingredients
         checkTimer()
         ingredientView.reloadData()
     }
@@ -118,7 +132,6 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if directionTextField.text != "" {
             direction.data = directionTextField.text!
-            direction.ingredients = connectedIngredients
             delegate?.directionCell(self, didAddDirection: direction)
         }
         return true

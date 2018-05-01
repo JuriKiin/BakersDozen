@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol RecipeTableDelegate {
+    func reloadRecipeTable()
+}
+
 class RecipeTableVC: UITableViewController {
     
     var navController:UINavigationController!
@@ -15,7 +19,8 @@ class RecipeTableVC: UITableViewController {
     var shownRecipeIndex: Int!
     
     //RecipeView Variables
-    let headerFontSize: CGFloat = 20
+    let headerFontSize: CGFloat = 30
+    let textFontSize: CGFloat = 20
     
     @IBOutlet var recipeTable: UITableView!
     @IBOutlet var editButton: UIBarButtonItem!
@@ -37,13 +42,28 @@ class RecipeTableVC: UITableViewController {
         shownRecipeIndex = -1
         recipeContentView.center = CGPoint(x: recipeContentView.center.x, y: self.view.frame.height + recipeContentView.frame.height / 2)
         recipeTextView.text! = ""
+        recipeTextView.textContainerInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         
         navigationController?.navigationBar.barTintColor = UIColor(red: 0.819, green: 0.235, blue: 0.403, alpha: 1)
-        navigationController?.navigationBar.tintColor = .white    }
+        navigationController?.navigationBar.tintColor = .white
+    }
     
     //Reload the data when coming back to this view.
     @IBAction func unwindWithCancelTapped(segue: UIStoryboardSegue) {
         recipeTable.reloadData()
+    }
+    
+    @IBAction func makeRecipe(_ sender: Any) {
+        
+        if recipe.directions.count == 0 || recipe.directions.count == 0 {
+            
+        }
+        
+        navController = storyboard?.instantiateViewController(withIdentifier: "MakeRecipeIdentifier") as! UINavigationController
+        navController.modalPresentationStyle = .fullScreen
+        let view = navController.topViewController as! MakeRecipeVC
+        view.recipe = RecipeData.sharedData.recipes[shownRecipeIndex]
+        present(navController, animated: true)
     }
     
     @IBAction func AddRecipe(_ sender: Any) {
@@ -53,6 +73,7 @@ class RecipeTableVC: UITableViewController {
         view.recipeIndexInMaster = -1
         view.isNewRecipe = true
         view.recipe = Recipe()
+        view.receipeTableDelegate = self
         present(navController, animated: true)
     }
     
@@ -165,14 +186,14 @@ class RecipeTableVC: UITableViewController {
     }
     
     func createData(data: String, isList: Bool) -> NSAttributedString {
-        let ingredientAttributes: [NSAttributedStringKey : Any] = [:
+        let ingredientAttributes: [NSAttributedStringKey : Any] = [
+            NSAttributedStringKey.font: UIFont(name: "HiraKakuProN-W3", size: textFontSize)!
         ]
         if isList {
-            return NSAttributedString(string: "\u{2022} \(data) \n", attributes: ingredientAttributes)
+            return NSAttributedString(string: "\u{2022} \(data) \n\n", attributes: ingredientAttributes)
         } else {
             return NSAttributedString(string: "\(data) \n", attributes: ingredientAttributes)
         }
-        
     }
     
     func createHeader(text: String) -> NSAttributedString{
@@ -231,3 +252,13 @@ class RecipeTableVC: UITableViewController {
     
     //End of Controller
 }
+
+extension RecipeTableVC: RecipeTableDelegate{
+    func reloadRecipeTable(){
+        recipeTable.reloadData()
+    }
+}
+
+
+
+

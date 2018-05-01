@@ -17,19 +17,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         
         
-       // Thread.sleep(forTimeInterval: 5.0)
+        //Thread.sleep(forTimeInterval: 1.5)
         
-        if let url = Bundle.main.url(forResource: "recipes", withExtension: "json") {
-            do {
-                let data = try Data(contentsOf: url)
-                let decoder = JSONDecoder()
-                //let jsonData = try decoder.decode(RecipeData.self, from: data)
-                //RecipeData.sharedData.recipes = jsonData
-            } catch {
-                print("error:\(error)")
-            }
-        }
-        
+//        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: "recipes.json")
+//        let success = NSKeyedArchiver.archiveRootObject(RecipeData.sharedData.recipes, toFile: pathToFile.path)
+//        if success {
+//            RecipeData.sharedData.recipes = NSArray(contentsOf: pathToFile) as! [Recipe]
+//            print(RecipeData.sharedData.recipes.count)
+//        }
         
         return true
     }
@@ -60,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         do {
             let data = try JSONSerialization.data(withJSONObject: recipes, options: [])
             try data.write(to: fileUrl, options: [])
+            print("Successfully saved recipes: \(recipes.count)")
         } catch {
             print(error)
         }
