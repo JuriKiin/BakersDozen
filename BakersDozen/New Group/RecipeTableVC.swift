@@ -10,6 +10,7 @@ import UIKit
 
 protocol RecipeTableDelegate {
     func reloadRecipeTable()
+    func resetRecipeTable()
 }
 
 class RecipeTableVC: UITableViewController {
@@ -303,6 +304,11 @@ class RecipeTableVC: UITableViewController {
 //This extension is used and called from editRecipe, used on save to reload the recipeTable data.
 extension RecipeTableVC: RecipeTableDelegate{
     func reloadRecipeTable(){
+        recipeTable.reloadData()
+    }
+    func resetRecipeTable() {
+        recipeContentView.isHidden = false
+        toggleEditTable()
         recipeTable.reloadData()
     }
 }

@@ -13,6 +13,7 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     var recipe: Recipe!
     var currentStep: Direction!
     var count: Int = 0
+    var recipeDelegate: RecipeTableDelegate?
     
     @IBOutlet var pageHeader: UINavigationItem!
     @IBOutlet var relatedIngredientsTable: UITableView!
@@ -29,6 +30,12 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         updateCount(withValue: 1)
         currentStep = recipe.directions[count]
         loadStep()
+    }
+    @IBAction func doneWithRecipe(_ sender: Any) {
+        //Reset the recipeView
+        recipeDelegate?.resetRecipeTable()
+        //dismiss view
+        dismiss(animated: true, completion: nil)
     }
     
     override func viewDidLoad() {

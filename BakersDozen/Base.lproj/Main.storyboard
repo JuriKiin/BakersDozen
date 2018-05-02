@@ -164,7 +164,7 @@
                     <navigationItem key="navigationItem" id="ihy-dn-0Wy">
                         <barButtonItem key="leftBarButtonItem" systemItem="done" id="kb9-kT-FJu">
                             <connections>
-                                <segue destination="NfO-d5-SLz" kind="unwind" unwindAction="unwindWithCancelTappedWithSegue:" id="DSQ-3J-RPg"/>
+                                <action selector="doneWithRecipe:" destination="bDr-Fl-2gu" id="KEt-2e-YVn"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -176,7 +176,6 @@
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u1B-bL-vMc" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="NfO-d5-SLz" userLabel="Exit" sceneMemberID="exit"/>
                 <swipeGestureRecognizer direction="right" id="Lne-XK-9jE">
                     <connections>
                         <action selector="swipeRightGesture:" destination="bDr-Fl-2gu" id="Nkd-6Z-AYo"/>
