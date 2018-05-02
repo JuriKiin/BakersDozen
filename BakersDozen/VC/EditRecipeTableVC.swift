@@ -78,48 +78,44 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 //HELPER FUNCTIONS.
     
     //Adds a cell of either Ingredient or note.
-    func AddIngredient(_ data: Ingredient) {
-        
-        if recipe.ingredients.count == 0 {
-            recipe.ingredients.append(data)
-        }
-        else if data.isNewIngredient {
+    func addIngredient(_ data: Ingredient) {
+        //If we have no ingredients yet or its a new ingredient, simply add it.
+        if recipe.ingredients.count == 0 || data.isNewIngredient{
             recipe.ingredients.append(data)
         } else {
-            recipe.ingredients[data.index].data = data.data
+            recipe.ingredients[data.index].data = data.data //Otherwise, replace it
         }
-        editTableView.reloadData()
+        
+        editTableView.reloadData()      //Reload the table
         //Update the ingredient views for each direction.
-        for cell in editTableView.visibleCells {
+        for cell in editTableView.visibleCells {            //Reload the direction cells.
             let path = editTableView.indexPath(for: cell)
             if path?.section == 3 {
                 let dirCell = cell as! DirectionCell
-                dirCell.ReloadIngredientData(data: recipe.ingredients)
+                dirCell.reloadIngredientData(data: recipe.ingredients)
             }
         }
     }
     
     //Changes the recipe name
-    func ChangeRecipeTitle(name: String) {
+    func changeRecipeTitle(name: String) {
         recipe.title = name
         pageTitle.title = name
     }
     
-    func EditNote(note: String) {
+    func editNote(note: String) {
         recipe.notes = note
     }
     
     //Adds a direction, and then reloads the table.
-    func AddDirection(_ direction: Direction) {
-        if recipe.directions.count == 0 {
-            recipe.directions.append(direction)
-        }
-        else if direction.isNewDirection {
+    func addDirection(_ direction: Direction) {
+        //If we have no directions or its a new direction, add it.
+        if recipe.directions.count == 0  || direction.isNewDirection{
             recipe.directions.append(direction)
         } else {
-            recipe.directions[direction.index] = direction
+            recipe.directions[direction.index] = direction  //Otherwise, replace it,
         }
-        editTableView.reloadData()
+        editTableView.reloadData()  //Reload the table
     }
     
 //Image select functions
@@ -131,7 +127,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     }
     
     //Lets user choose a photo from their library.
-    @objc func ChoosePhotoFromLibrary(_ sender: Any) {
+    @objc func choosePhotoFromLibrary(_ sender: Any) {
         if UIImagePickerController.isSourceTypeAvailable(.photoLibrary) {
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
@@ -179,7 +175,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.photoImage.image = recipe.image
             }
             //Add the gesture
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ChoosePhotoFromLibrary(_:)))
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(choosePhotoFromLibrary(_:)))
             cell.isUserInteractionEnabled = true
             cell.addGestureRecognizer(tapGesture)
 
@@ -216,7 +212,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.ingredient.isNewIngredient = false
                 cell.ingredientField.text = recipe.ingredients[indexPath.row].data
             }
-           return cell
+            return cell
         case 3: //We are adding a direction
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Direction", for: indexPath) as! DirectionCell
             cell.directionTextField.text = nil
@@ -235,11 +231,9 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.direction = recipe.directions[indexPath.row]
                 cell.direction.index = indexPath.row
             }
-            
             cell.ingredients = recipe.ingredients
             cell.initDirection()
             return cell
-
         case 4:
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Note", for: indexPath) as! NoteCell
             cell.delegate = self
@@ -260,6 +254,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         }
     }
     
+    //set the section headers.
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         switch section {
         case 1:
@@ -306,10 +301,10 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         }
         editTableView.reloadData()
     }
-    
     //End of controller
 }
 
+//This extension takes functions from the nibs that tell the VC to reload or change data.
 extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate, DeleteCellDelegate {
     func updateDirectionTimer(_ atIndex: Int, with value: Bool) {
         if recipe.directions.count == 0 {
@@ -342,18 +337,18 @@ extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, Name
     
     func noteCell(_ noteCell: NoteCell, with text: String) {
         noteCell.textArea.endEditing(true)
-        EditNote(note: text)
+        editNote(note: text)
     }
     
     func nameCell(_ nameCell: NameCell, with name: String) {
-        ChangeRecipeTitle(name: name)
+        changeRecipeTitle(name: name)
     }
     
     func ingredientCell(_ ingredientCell: IngredientCell, didAddIngredient ingredient: Ingredient) {
-        AddIngredient(ingredient)
+        addIngredient(ingredient)
     }
     func directionCell(_ directionCell: DirectionCell, didAddDirection direction: Direction) {
-        AddDirection(direction)
+        addDirection(direction)
     }
 }
 

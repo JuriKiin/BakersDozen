@@ -39,11 +39,12 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        
+        //Create cell
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
         cell.ingredient = ingredients[indexPath.row]
         cell.name.text = cell.ingredient.data
         
+        //If the cell is equal to a related ingredient, highlight the cell.
         for i in 0 ..< direction.ingredients.count {
             if cell.ingredient.isEqual(other: direction.ingredients[i]) {
                 cell.name.layer.borderColor = UIColor.blue.cgColor
@@ -54,21 +55,21 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         cell.name.layer.borderWidth = 2.0
         
         //Add touch hold recognizer
-        let pressRecognizer = UITapGestureRecognizer(target: self, action: #selector(ToggleIngredientSelected(press:)))
+        let pressRecognizer = UITapGestureRecognizer(target: self, action: #selector(toggleIngredientSelected(press:)))
         cell.addGestureRecognizer(pressRecognizer)
         
         return cell
     }
     
-    @objc func ToggleIngredientSelected(press: UITapGestureRecognizer) {
+    @objc func toggleIngredientSelected(press: UITapGestureRecognizer) {
+        //Create cell.
         let cell = press.view as! IngredientCollectionCell
-        print(cell.name.text!)
-        
+        //If direction's ingredients is 0, simeply add it.
         if direction.ingredients.count == 0 {
             direction.ingredients.append(cell.ingredient)
             ingredientView.reloadData()
             print("Adding: \(cell.name.text!) at index: \(0)")
-        } else {
+        } else {    //Otherwise, check if it exists so we can toggle it.
             for i in 0 ..< direction.ingredients.count {
                 if  direction.ingredients[i].isEqual(other: cell.ingredient) {
                     print("removing: \(direction.ingredients[i].data)")
@@ -97,13 +98,13 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         directionTextField.delegate = self
         directionTextField.returnKeyType = .done
         
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(ToggleTimer))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(toggleTimer))
         
         timerImage?.isUserInteractionEnabled = true
         timerImage?.addGestureRecognizer(tapGesture)
     }
     
-    @objc func ToggleTimer() {
+    @objc func toggleTimer() {
         direction.hasTimer = !direction.hasTimer
         delegate?.updateDirectionCell(self, withDirection: direction)
         checkTimer()
@@ -124,7 +125,7 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         }
     }
     
-    func ReloadIngredientData(data: [Ingredient]){
+    func reloadIngredientData(data: [Ingredient]){
         ingredients = data
         ingredientView.reloadData()
     }

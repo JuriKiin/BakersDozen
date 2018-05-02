@@ -31,7 +31,6 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         loadStep()
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         pageHeader.title = recipe.title
