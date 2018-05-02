@@ -143,6 +143,7 @@ class RecipeTableVC: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "recipeCell", for: indexPath) as! RecipeCell
         //Set the cell recipe to the correct recipe
         cell.recipe = RecipeData.sharedData.recipes[indexPath.section]
+        cell.selectionStyle = .none
         //If we have selected this recipe to show, change the corner radius.
         if indexPath.section == shownRecipeIndex {
             cell.layer.cornerRadius = 0
@@ -150,14 +151,15 @@ class RecipeTableVC: UITableViewController {
             cell.layer.cornerRadius = 8
         }
         //Set the text and color of the cell.
-        cell.textLabel?.text = RecipeData.sharedData.recipes[indexPath.section].title
-        cell.backgroundColor = RecipeData.sharedData.recipes[indexPath.section].color
+        cell.textLabel?.text = cell.recipe.title
+        cell.backgroundColor = cell.recipe.color
         return cell
     }
     
     //If we select a row, set data and then switch view controllers.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //If we're editing the table, load the Edit View with the recipe selected
+        recipeTable.visibleCells[indexPath.section].layer.backgroundColor = RecipeData.sharedData.recipes[indexPath.section].color.cgColor
         if recipeTable.isEditing {
             //Set the navigationController
             navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController

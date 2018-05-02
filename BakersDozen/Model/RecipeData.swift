@@ -51,6 +51,7 @@ public class RecipeData {
         ]
         testCell.notes = "These can be stored for 2-3 days at room temperature if in a sealed bag. They can also freeze up to 3 months. These can also be used with any type of berry you like!"
         testCell.image = UIImage(named: "muffin")
+        testCell.color = UIColor(red: 219/255, green: 213/255, blue: 110/255, alpha: 1)
         
         recipes.append(testCell)
     }
