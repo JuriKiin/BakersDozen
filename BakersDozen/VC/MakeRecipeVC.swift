@@ -16,6 +16,8 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     @IBOutlet var pageHeader: UINavigationItem!
     @IBOutlet var relatedIngredientsTable: UITableView!
+    @IBOutlet var stepLabel: UILabel!
+    @IBOutlet var directionLabel: UILabel!
     
     @IBAction func swipeRightGesture(_ sender: Any) {
         updateCount(withValue: -1)
@@ -35,6 +37,9 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         pageHeader.title = recipe.title
         relatedIngredientsTable.delegate = self
         relatedIngredientsTable.dataSource = self
+        stepLabel.text = "Step \(count+1) out of \(recipe.directions.count)"
+        stepLabel.sizeToFit()
+        directionLabel.text = recipe.directions[0].data
         currentStep = recipe.directions[0]
         view.backgroundColor = recipe.color
     }
@@ -58,7 +63,6 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         return cell
     }
     
-    
     //Helper func
     
     func loadStep() {
@@ -66,6 +70,9 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         if currentStep.hasTimer {
             drawTimer()
         }
+        stepLabel.text = "Step \(count+1) out of \(recipe.directions.count)"
+       // stepLabel.sizeToFit()
+        directionLabel.text = recipe.directions[count].data
         relatedIngredientsTable.reloadData()
     }
     
@@ -84,13 +91,11 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
     
     
     func updateCount(withValue: Int) {
-        if count < 0 {
+        count += withValue
+        if count <= 0 {
             count = 0
-        } else if count >= recipe.directions.count-1 {
+        } else if count >= recipe.directions.count {
             count = recipe.directions.count-1
-        } else {
-            count += withValue
         }
-        print(count)
     }
 }
