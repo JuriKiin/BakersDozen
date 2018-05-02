@@ -168,6 +168,7 @@ class RecipeTableVC: UITableViewController {
             view.recipeIndexInMaster = indexPath.section
             view.isNewRecipe = false
             view.recipe = RecipeData.sharedData.recipes[indexPath.section]
+            view.receipeTableDelegate = self
             present(navController, animated: true)
         
         } else {    //Load Recipe View
