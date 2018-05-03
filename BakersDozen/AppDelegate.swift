@@ -47,19 +47,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         print("About to close")
-        let recipes = RecipeData.sharedData.recipes
-        // Get the url of Persons.json in document directory
-        guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        let fileUrl = documentDirectoryUrl.appendingPathComponent("recipes.json")
-        
-        // Transform array into data and save it into file
-        do {
-            let data = try JSONSerialization.data(withJSONObject: recipes, options: [])
-            try data.write(to: fileUrl, options: [])
-            print("Successfully saved recipes: \(recipes.count)")
-        } catch {
-            print(error)
-        }
+//        let recipes = RecipeData.sharedData.recipes
+//        // Get the url of Persons.json in document directory
+//        guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
+//        let fileUrl = documentDirectoryUrl.appendingPathComponent("recipes.json")
+//        
+//        // Transform array into data and save it into file
+//        do {
+//            let data = try JSONSerialization.data(withJSONObject: recipes, options: [])
+//            try data.write(to: fileUrl, options: [])
+//            print("Successfully saved recipes: \(recipes.count)")
+//        } catch {
+//            print(error)
+//        }
     }
 
 

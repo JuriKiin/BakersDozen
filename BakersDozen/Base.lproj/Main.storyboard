@@ -137,8 +137,8 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zno-Eh-xIs">
-                                <rect key="frame" x="16" y="250" width="736" height="331.5"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="10" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zno-Eh-xIs">
+                                <rect key="frame" x="16" y="108" width="736" height="620"/>
                                 <fontDescription key="fontDescription" name="MarkerFelt-Thin" family="Marker Felt" pointSize="40"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -152,10 +152,10 @@
                             <constraint firstItem="PwK-9b-TPt" firstAttribute="trailing" secondItem="iDJ-xA-qVH" secondAttribute="trailing" id="ATk-aK-0Y1"/>
                             <constraint firstItem="PwK-9b-TPt" firstAttribute="bottom" secondItem="iDJ-xA-qVH" secondAttribute="bottom" id="Fkf-1W-I5e"/>
                             <constraint firstItem="PwK-9b-TPt" firstAttribute="trailing" secondItem="Zno-Eh-xIs" secondAttribute="trailing" constant="16" id="WWz-Gy-hE3"/>
-                            <constraint firstItem="iDJ-xA-qVH" firstAttribute="top" secondItem="Zno-Eh-xIs" secondAttribute="bottom" constant="203.33333333333337" id="Yzt-Wd-izf"/>
+                            <constraint firstItem="iDJ-xA-qVH" firstAttribute="top" secondItem="Zno-Eh-xIs" secondAttribute="bottom" constant="57" id="Yzt-Wd-izf"/>
                             <constraint firstItem="Zno-Eh-xIs" firstAttribute="leading" secondItem="PwK-9b-TPt" secondAttribute="leading" constant="16" id="fW5-GT-pWX"/>
                             <constraint firstItem="kug-Q6-ptQ" firstAttribute="leading" secondItem="PwK-9b-TPt" secondAttribute="leading" constant="16" id="fcZ-hh-S0M"/>
-                            <constraint firstItem="Zno-Eh-xIs" firstAttribute="top" secondItem="kug-Q6-ptQ" secondAttribute="bottom" constant="150" id="jEX-ip-I9y"/>
+                            <constraint firstItem="Zno-Eh-xIs" firstAttribute="top" secondItem="kug-Q6-ptQ" secondAttribute="bottom" constant="8" id="jEX-ip-I9y"/>
                             <constraint firstItem="iDJ-xA-qVH" firstAttribute="leading" secondItem="PwK-9b-TPt" secondAttribute="leading" id="sBM-fg-7Km"/>
                             <constraint firstItem="kug-Q6-ptQ" firstAttribute="top" secondItem="PwK-9b-TPt" secondAttribute="top" constant="15" id="yB9-Nh-0rI"/>
                         </constraints>
@@ -191,7 +191,7 @@
                     </connections>
                 </swipeGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="253.59999999999999" y="684.10794602698661"/>
+            <point key="canvasLocation" x="252.17391304347828" y="683.96739130434787"/>
         </scene>
         <!--New Recipe-->
         <scene sceneID="4zf-BL-kcB">
