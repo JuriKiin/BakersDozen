@@ -14,7 +14,7 @@ Jüri Kiin
 
 # Screenshots:
 1. Main Menu
-![alt text](Screenshots/Menu.png){:height="250px"}
+![alt text](Screenshots/Menu.png | height=250)
 
 2. Adding a recipe
 ![alt text](Screenshots/New.png)
