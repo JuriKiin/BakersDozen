@@ -12,7 +12,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 
     var recipe = Recipe()
     var isNewRecipe: Bool!
-    let defaultImage = UIImage(named: "DefaultImage")
+    let defaultImage = "DefaultImage"
     var recipeIndexInMaster: Int!
     
     //Helper vars for saving/editing a recipe
@@ -111,6 +111,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     func addDirection(_ direction: Direction) {
         //If we have no directions or its a new direction, add it.
         if recipe.directions.count == 0  || direction.isNewDirection{
+            direction.isNewDirection = false
             recipe.directions.append(direction)
         } else {
             recipe.directions[direction.index] = direction  //Otherwise, replace it,
@@ -121,7 +122,8 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 //Image select functions
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         let image = info[UIImagePickerControllerOriginalImage] as! UIImage
-        recipe.image = image
+        
+        recipe.image = UIImagePNGRepresentation(image)!
         editTableView.reloadData()
         dismiss(animated:true, completion: nil)
     }
@@ -169,22 +171,15 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         case 0: // We are adding a Custom Image cell
             //Create the cell
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Image", for: indexPath) as! ImageCell
-            if recipe.image == nil {
-                cell.photoImage.image = defaultImage
+            if recipe.image == Data.init() {
+                cell.photoImage.image = UIImage(named: defaultImage)
             } else {
-                cell.photoImage.image = recipe.image
+                cell.photoImage.image = UIImage(data: recipe.image)
             }
             //Add the gesture
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(choosePhotoFromLibrary(_:)))
             cell.isUserInteractionEnabled = true
             cell.addGestureRecognizer(tapGesture)
-
-            //If our recipe is nil, load a default image
-            if recipe.image != nil {
-                cell.photoImage.image = recipe.image
-            } else { //Load the saved image.
-               cell.photoImage.image = defaultImage
-            }
             return cell
         case 1: //We are adding a Custom Recipe Name Cell
             let cell = editTableView.dequeueReusableCell(withIdentifier: "Name", for: indexPath) as! NameCell

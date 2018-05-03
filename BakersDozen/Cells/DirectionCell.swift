@@ -44,12 +44,10 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         cell.ingredient = ingredients[indexPath.row]
         cell.name.text = cell.ingredient.data
         
-        //If the cell is equal to a related ingredient, highlight the cell.
+        cell.name.layer.borderColor = UIColor.black.cgColor
         for i in 0 ..< direction.ingredients.count {
-            if cell.ingredient.isEqual(other: direction.ingredients[i]) {
+            if !cell.ingredient.isEqual(other: direction.ingredients[i]) {
                 cell.name.layer.borderColor = UIColor.blue.cgColor
-            } else {
-                cell.name.layer.borderColor = UIColor.black.cgColor
             }
         }
         cell.name.layer.borderWidth = 2.0

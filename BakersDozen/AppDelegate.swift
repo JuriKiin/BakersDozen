@@ -46,6 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
+        print("About to close")
         let recipes = RecipeData.sharedData.recipes
         // Get the url of Persons.json in document directory
         guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }

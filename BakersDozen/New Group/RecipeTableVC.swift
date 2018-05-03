@@ -29,7 +29,8 @@ class RecipeTableVC: UITableViewController {
     @IBOutlet var recipeContentView: UIView!
     @IBOutlet var recipeImage: UIImageView!
     @IBOutlet var recipeTextView: UITextView!
-   
+    @IBOutlet var makeButton: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         //Set the recipe to a new recipe by default
@@ -153,14 +154,16 @@ class RecipeTableVC: UITableViewController {
         }
         //Set the text and color of the cell.
         cell.textLabel?.text = cell.recipe.title
-        cell.backgroundColor = cell.recipe.color
+        cell.backgroundColor = UIColor(red: cell.recipe.color[0], green: cell.recipe.color[1], blue: cell.recipe.color[2], alpha: cell.recipe.color[3])
         return cell
     }
     
     //If we select a row, set data and then switch view controllers.
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //If we're editing the table, load the Edit View with the recipe selected
-        recipeTable.visibleCells[indexPath.section].layer.backgroundColor = RecipeData.sharedData.recipes[indexPath.section].color.cgColor
+        let color = RecipeData.sharedData.recipes[indexPath.section].color
+        recipeTable.visibleCells[indexPath.section].layer.backgroundColor =
+            UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3]).cgColor
         if recipeTable.isEditing {
             //Set the navigationController
             navController = storyboard?.instantiateViewController(withIdentifier: "RecipeNavigationController") as! UINavigationController
@@ -187,7 +190,7 @@ class RecipeTableVC: UITableViewController {
     //This function loads the correct recipe data into the content view.
     func populateRecipeView(atIndex: Int) {
         let tempRecipe = RecipeData.sharedData.recipes[atIndex] //Get the Recipe
-        recipeImage.image = tempRecipe.image   //Set the Recipe Image
+        recipeImage.image = UIImage(data: tempRecipe.image)   //Set the Recipe Image
         let recipeString = NSMutableAttributedString()
         //Add Ingredient Header
         recipeString.append(createHeader(text: "Ingredients"))
@@ -243,7 +246,7 @@ class RecipeTableVC: UITableViewController {
              shownRecipeIndex = -1
         } else {    //Otherwise, display it.
             recipeContentView.isHidden = false
-             shownRecipeIndex = atIndex
+            shownRecipeIndex = atIndex
         }
        
         //Get the cell for telling the content view where to move to,
@@ -281,7 +284,7 @@ class RecipeTableVC: UITableViewController {
             directionArray += "\(recipe.directions[i].data) \n"
         }
         //Adding the objects to share array so the activity controller knows what to share
-        let objectsToShare = [recipe.image!, shareText, ingredientArray, directionArray] as [Any]
+        let objectsToShare = [UIImage(data: recipe.image) as Any, shareText, ingredientArray, directionArray] as [Any]
         //Present the activity controller.
         let activityVC = UIActivityViewController(activityItems: objectsToShare, applicationActivities: nil)
         activityVC.excludedActivityTypes = [.airDrop, .addToReadingList]
@@ -295,6 +298,7 @@ class RecipeTableVC: UITableViewController {
             RecipeData.sharedData.recipes.remove(at: indexPath.section)
             toggleEditTable()
             recipeTable.reloadData()
+            recipeContentView.isHidden = true
         }
     }
     
@@ -304,6 +308,7 @@ class RecipeTableVC: UITableViewController {
 //This extension is used and called from editRecipe, used on save to reload the recipeTable data.
 extension RecipeTableVC: RecipeTableDelegate{
     func reloadRecipeTable(){
+        recipeContentView.isHidden = true
         recipeTable.reloadData()
     }
     func resetRecipeTable() {

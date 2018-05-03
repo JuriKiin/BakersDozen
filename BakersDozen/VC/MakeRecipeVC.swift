@@ -47,7 +47,7 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         stepLabel.sizeToFit()
         directionLabel.text = recipe.directions[0].data
         currentStep = recipe.directions[0]
-        view.backgroundColor = recipe.color
+        view.backgroundColor = UIColor(red: recipe.color[0], green: recipe.color[1], blue: recipe.color[2], alpha: recipe.color[3])
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -92,7 +92,7 @@ class MakeRecipeVC: UIViewController, UITableViewDelegate, UITableViewDataSource
         
         shapeLayer.strokeColor = UIColor.red.cgColor
         shapeLayer.lineWidth = 10
-        shapeLayer.fillColor = recipe.color.cgColor
+        shapeLayer.fillColor = UIColor(red: recipe.color[0], green: recipe.color[1], blue: recipe.color[2], alpha: recipe.color[3]).cgColor
     }
     
     

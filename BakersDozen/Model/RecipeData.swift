@@ -11,7 +11,7 @@ import UIKit
 public class RecipeData {
 
     static let sharedData = RecipeData()
-    
+
     var recipes = [Recipe]()
     
     private init(){
@@ -50,9 +50,9 @@ public class RecipeData {
             
         ]
         testCell.notes = "These can be stored for 2-3 days at room temperature if in a sealed bag. They can also freeze up to 3 months. These can also be used with any type of berry you like!"
-        testCell.image = UIImage(named: "muffin")
-        testCell.color = UIColor(red: 219/255, green: 213/255, blue: 110/255, alpha: 1)
-        
+        let imageData = UIImage(named: "muffin")
+        testCell.image = UIImagePNGRepresentation(imageData!)!
+        testCell.color =  [CGFloat(219.0/255.0), CGFloat(213.0/255.0), CGFloat(110.0/255.0), CGFloat(1.0)]
         recipes.append(testCell)
     }
     

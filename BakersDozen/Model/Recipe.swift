@@ -16,11 +16,11 @@ class Direction: NSObject, Codable {
     var index: Int
     
     enum CodingKeys: String, CodingKey {
-        case data
-        case ingredients
-        case hasTimer
-        case isNewDirection
-        case index
+        case data = "data"
+        case ingredients = "ingredients"
+        case hasTimer = "hasTimer"
+        case isNewDirection = "isNewDirection"
+        case index = "index"
     }
     
     public required init(from decoder: Decoder) throws {
@@ -31,6 +31,14 @@ class Direction: NSObject, Codable {
         self.hasTimer = try values.decode(Bool.self, forKey: CodingKeys.hasTimer)
         self.isNewDirection = try values.decode(Bool.self, forKey: CodingKeys.isNewDirection)
         self.index = try values.decode(Int.self, forKey: CodingKeys.index)
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encode(data, forKey: CodingKeys.data.rawValue)
+        aCoder.encode(ingredients, forKey: CodingKeys.ingredients.rawValue)
+        aCoder.encode(hasTimer, forKey: CodingKeys.hasTimer.rawValue)
+        aCoder.encode(isNewDirection, forKey: CodingKeys.isNewDirection.rawValue)
+        aCoder.encode(index, forKey: CodingKeys.index.rawValue)
     }
     
     
@@ -57,9 +65,15 @@ class Ingredient: NSObject, Codable {
     
     
     enum CodingKeys: String, CodingKey {
-        case data
-        case isNewIngredient
-        case index
+        case data = "data"
+        case isNewIngredient = "isNewIngredient"
+        case index = "index"
+    }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encode(data, forKey: CodingKeys.data.rawValue)
+        aCoder.encode(isNewIngredient, forKey: CodingKeys.isNewIngredient.rawValue)
+        aCoder.encode(index, forKey: CodingKeys.index.rawValue)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -96,10 +110,10 @@ public struct RecipeList {
     }
 }
 
-class Recipe: NSObject {
+class Recipe: NSObject, Codable {
     
     var title: String
-    var image: UIImage?
+    var image: Data
     var rating: Int {
         didSet{
             if oldValue < 0 {
@@ -113,18 +127,31 @@ class Recipe: NSObject {
     var notes:String
     
     //App vars (for displaying recipe)
-    var color: UIColor
+    var color: [CGFloat]
     
     enum CodingKeys: String, CodingKey {
-        case title
-        case image
-        case rating
-        case _id
-        case ingredients
-        case directions
-        case notes
-        case color
+        case title = "title"
+        case image = "image"
+        case rating = "rating"
+        case _id = "_id"
+        case ingredients = "ingredients"
+        case directions = "directions"
+        case notes = "notes"
+        case color = "color"
     }
+    
+    func encodeWithCoder(aCoder: NSCoder) {
+        aCoder.encode(title, forKey: CodingKeys.title.rawValue)
+        aCoder.encode(image, forKey: CodingKeys.image.rawValue)
+        aCoder.encode(rating, forKey: CodingKeys.rating.rawValue)
+        aCoder.encode(_id, forKey: CodingKeys._id.rawValue)
+        aCoder.encode(ingredients, forKey: CodingKeys.ingredients.rawValue)
+        aCoder.encode(directions, forKey: CodingKeys.directions.rawValue)
+        aCoder.encode(notes, forKey: CodingKeys.notes.rawValue)
+        aCoder.encode(color, forKey: CodingKeys.color.rawValue)
+    }
+    
+    
     //Default init.
     override init(){
         title = ""
@@ -133,11 +160,12 @@ class Recipe: NSObject {
         directions = []
         notes = ""
         _id = ""
-        color = .white
+        color = [1,1,1,1] as [CGFloat]
+        image = Data.init()
     }
     
     //Helper init
-    init(title: String, rating: Int, ingredients: [Ingredient], directions: [Direction], notes: String, image: UIImage){
+    init(title: String, rating: Int, ingredients: [Ingredient], directions: [Direction], notes: String, image: Data){
         self.title = title
         self.rating = rating
         self.ingredients = ingredients
@@ -145,7 +173,7 @@ class Recipe: NSObject {
         self.notes = notes
         self._id = ""
         self.image = image
-        self.color = .white
+        self.color = [1,1,1,1] as [CGFloat]
     }
     
     public required init(from decoder: Decoder) throws {
@@ -161,11 +189,8 @@ class Recipe: NSObject {
         self.directions = try values.decode([Direction].self, forKey: CodingKeys.directions)
         self.notes = try values.decode(String.self, forKey: CodingKeys.notes)
         self._id = try values.decode(String.self, forKey: CodingKeys._id)
-        
-        let imageURL = try values.decode(String.self, forKey: CodingKeys.image)
-        self.image = UIImage(named: imageURL)
-        let color = try values.decode([CGFloat].self, forKey: CodingKeys.color)
-        self.color = UIColor(red: color[0], green: color[1], blue: color[2], alpha: color[3])
+        self.image = try values.decode(Data.self, forKey: CodingKeys.image)
+        self.color = try values.decode([CGFloat].self, forKey: CodingKeys.color)
     }
     
     
@@ -176,13 +201,12 @@ class Recipe: NSObject {
     
     func SetColor(){
         
-        let colors:[UIColor] = [
-            UIColor(red: 219/255, green: 213/255, blue: 110/255, alpha: 1),
-            UIColor(red: 136/255, green: 171/255, blue: 117/255, alpha: 1),
-            UIColor(red: 45/255, green: 147/255, blue: 173/255, alpha: 1),
-            UIColor(red: 125/255, green: 124/255, blue: 132/255, alpha: 1),
-            UIColor(red: 136/255, green: 171/255, blue: 117/255, alpha: 1),
-            UIColor(red: 222/255, green: 143/255, blue: 110/255, alpha: 1),
+        let colors:[[CGFloat]] = [
+            [CGFloat(219.0/255.0), CGFloat(213.0/255.0), CGFloat(110.0/255.0), CGFloat(1.0)],
+            [CGFloat(136.0/255.0),CGFloat(171.0/255.0),CGFloat(117.0/255.0),CGFloat(1.0)],
+            [CGFloat(45.0/255.0),CGFloat(147.0/255.0),CGFloat(173.0/255.0),CGFloat(1.0)],
+            [CGFloat(125.0/255.0),CGFloat(124.0/255.0),CGFloat(132.0/255.0),CGFloat(1.0)],
+            [CGFloat(222.0/255.0),CGFloat(143.0/255.0),CGFloat(110.0/255.0),CGFloat(1.0)]
             ]
         let random = Int(arc4random_uniform(UInt32(colors.count)))
         self.color = colors[random]
@@ -196,11 +220,9 @@ extension CGFloat {
 }
 
 extension UIColor {
-    static func random() -> UIColor {
-        return UIColor(red:   .random(),
-                       green: .random(),
-                       blue:  .random(),
-                       alpha: 1.0)
+    static func random() -> [CGFloat] {
+        
+        return [CGFloat(.random()),CGFloat(.random()),CGFloat(.random()),CGFloat(1.0)]
     }
 }
 
