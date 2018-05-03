@@ -71,7 +71,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         editTableView.register(UINib(nibName: "Direction", bundle: nil), forCellReuseIdentifier: "Direction")
         editTableView.register(UINib(nibName: "Image", bundle: nil), forCellReuseIdentifier: "Image")
         editTableView.register(UINib(nibName: "Note", bundle: nil), forCellReuseIdentifier: "Note")
-        editTableView.register(UINib(nibName: "DeleteCell", bundle: nil), forCellReuseIdentifier: "Delete")
         editTableView.register(UINib(nibName: "DefaultCell", bundle: nil), forCellReuseIdentifier: "DefaultCell")
     }
     
@@ -142,7 +141,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 //UITableView Delegate
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 6
+        return 5
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -156,8 +155,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
         case 3:
             return recipe.directions.count + 1
         case 4:
-            return 1
-        case 5:
             return 1
         default:
             return 0
@@ -238,10 +235,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 cell.textArea.text = recipe.notes
             }
             return cell
-        case 5:
-            let cell = editTableView.dequeueReusableCell(withIdentifier: "Delete", for: indexPath) as! DeleteCell
-            cell.delegate = self
-            return cell
         default:    //Default cell.
             let cell = editTableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
             cell.textLabel?.text = "Cell template not yet created."
@@ -300,7 +293,7 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
 }
 
 //This extension takes functions from the nibs that tell the VC to reload or change data.
-extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate, DeleteCellDelegate {
+extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, NameCellDelegate, NoteCellDelegate {
     func updateDirectionTimer(_ atIndex: Int, with value: Bool) {
         if recipe.directions.count == 0 {
             //Set back our updated cell
@@ -317,17 +310,6 @@ extension EditRecipeTableVC: IngredientCellDelegate, DirectionCellDelegate, Name
     func updateDirectionCell(_ directionCell: DirectionCell, withDirection: Direction) {
         recipe.directions[withDirection.index] = withDirection
         editTableView.reloadData()
-    }
-    
-    func deleteCell(_ cell: DeleteCell) {
-        if isEditing {
-            RecipeData.sharedData.recipes.remove(at: recipeIndexInMaster)
-        } else {
-            //Load MainView.
-            let navController = storyboard?.instantiateViewController(withIdentifier: "MainView") as! UINavigationController
-            navController.modalPresentationStyle = .fullScreen
-            present(navController, animated: true)
-        }
     }
     
     func noteCell(_ noteCell: NoteCell, with text: String) {

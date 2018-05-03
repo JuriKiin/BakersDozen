@@ -43,7 +43,7 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
         cell.ingredient = ingredients[indexPath.row]
         cell.name.text = cell.ingredient.data
-        
+        //cell.name.sizeToFit()
         cell.name.layer.borderColor = UIColor.black.cgColor
         for i in 0 ..< direction.ingredients.count {
             if !cell.ingredient.isEqual(other: direction.ingredients[i]) {
@@ -57,6 +57,10 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         cell.addGestureRecognizer(pressRecognizer)
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        return CGSize(width: 500, height: 50)
     }
     
     @objc func toggleIngredientSelected(press: UITapGestureRecognizer) {

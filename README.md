@@ -9,17 +9,24 @@ Jüri Kiin
 - User can view a recipe
 - User can share details of their recipe on social media
 - User can delete a recipe
+- User is able to enter a MakeRecipe view to swipe through the steps of that recipe
+- The ingredients for each step are listed in that MakeRecipeView
 
 # Screenshots:
 1. Main Menu
 ![alt text](Screenshots/Menu.png)
 
 2. Adding a recipe
-![alt text](Screenshots/Add.png)
+![alt text](Screenshots/New.png)
 
-3. Viewing a recipe
-![alt text](Screenshots/View.png)
+3. Editing a recipe
+![alt text](Screenshots/Edit.png)
 
+4. Viewing a recipe
+![alt text](Screenshots/ViewRecipe.png)
+
+5. Making a recipe
+![alt text](Screenshots/Make)
 
 
 
