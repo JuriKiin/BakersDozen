@@ -79,7 +79,7 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
                 cell.ingredient.isSelected = false
                 print("removing: \(cell.ingredient.data)")
                 direction.ingredients.remove(at: cell.ingredient.index)
-                for i in 0 ..< direction.ingredients.count {
+                for i in 0 ..< direction.ingredients.count {    //decrement the index for everything after it.
                     if direction.ingredients[i].index > cell.ingredient.index {
                          direction.ingredients[i].index -= 1
                     }

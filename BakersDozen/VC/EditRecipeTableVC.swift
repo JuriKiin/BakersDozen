@@ -273,7 +273,6 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            
             switch indexPath.section {
             case 2:
                 if indexPath.row < recipe.ingredients.count {
