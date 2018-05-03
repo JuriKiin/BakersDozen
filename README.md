@@ -26,7 +26,7 @@ Jüri Kiin
 ![alt text](Screenshots/ViewRecipe.png)
 
 5. Making a recipe
-![alt text](Screenshots/Make)
+![alt text](Screenshots/Make.png)
 
 
 
