@@ -43,10 +43,9 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
         let cell = ingredientView.dequeueReusableCell(withReuseIdentifier: "ingredientCell", for: indexPath) as! IngredientCollectionCell
         cell.ingredient = ingredients[indexPath.row]
         cell.name.text = cell.ingredient.data
-        //cell.name.sizeToFit()
         cell.name.layer.borderColor = UIColor.black.cgColor
         for i in 0 ..< direction.ingredients.count {
-            if !cell.ingredient.isEqual(other: direction.ingredients[i]) {
+            if cell.ingredient.isEqual(other: direction.ingredients[i]) {
                 cell.name.layer.borderColor = UIColor.blue.cgColor
             }
         }
@@ -66,25 +65,48 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     @objc func toggleIngredientSelected(press: UITapGestureRecognizer) {
         //Create cell.
         let cell = press.view as! IngredientCollectionCell
+        let cellIndex = ingredientView.indexPath(for: cell)
         //If direction's ingredients is 0, simeply add it.
         if direction.ingredients.count == 0 {
+            cell.ingredient.isSelected = true
+            cell.ingredient.index = direction.ingredients.count
             direction.ingredients.append(cell.ingredient)
             ingredientView.reloadData()
             print("Adding: \(cell.name.text!) at index: \(0)")
         } else {    //Otherwise, check if it exists so we can toggle it.
-            for i in 0 ..< direction.ingredients.count {
-                if  direction.ingredients[i].isEqual(other: cell.ingredient) {
-                    print("removing: \(direction.ingredients[i].data)")
-                    direction.ingredients.remove(at: i)
-                    ingredientView.reloadData()
-                    return
-                } else {
-                    direction.ingredients.append(Ingredient(data: cell.name.text!, isNew: false, atIndex: direction.ingredients.count-1))
-                    print("Adding: \(cell.name.text!) at index: \(direction.ingredients.count-1)")
-                    ingredientView.reloadData()
-                    return
+            
+            if cell.ingredient.isSelected {
+                //Unselect it
+                cell.ingredient.isSelected = false
+                print("removing: \(cell.ingredient.data)")
+                direction.ingredients.remove(at: cell.ingredient.index)
+                for i in 0 ..< direction.ingredients.count {
+                    if direction.ingredients[i].index > cell.ingredient.index {
+                         direction.ingredients[i].index -= 1
+                    }
                 }
+            } else {
+                //Select it
+                cell.ingredient.isSelected = true
+                cell.ingredient.index = direction.ingredients.count
+                print("Adding: \(cell.name.text!) at index: \(direction.ingredients.count-1)")
+                direction.ingredients.append(cell.ingredient)
             }
+            
+            
+            
+            
+//            for i in 0 ..< direction.ingredients.count {
+//                if  direction.ingredients[direction.index].isEqual(other: cell.ingredient) {
+//                    print("removing: \(direction.ingredients[i].data)")
+//                    direction.ingredients.remove(at: i)
+//                    ingredientView.reloadData()
+//                } else {
+//                    direction.ingredients.append(Ingredient(data: cell.name.text!, isNew: false, atIndex: direction.ingredients.count-1, isSelected: true))
+//                    print("Adding: \(cell.name.text!) at index: \(direction.ingredients.count-1)")
+//                    ingredientView.reloadData()
+//                }
+//            }
             delegate?.updateDirectionCell(self, withDirection: direction)
         }
     }

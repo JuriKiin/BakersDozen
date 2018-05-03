@@ -61,6 +61,7 @@ class Direction: NSObject, Codable {
 class Ingredient: NSObject, Codable {
     var data: String
     var isNewIngredient: Bool
+    var isSelected: Bool
     var index: Int
     
     
@@ -68,12 +69,14 @@ class Ingredient: NSObject, Codable {
         case data = "data"
         case isNewIngredient = "isNewIngredient"
         case index = "index"
+        case isSelected = "isSelected"
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encode(data, forKey: CodingKeys.data.rawValue)
         aCoder.encode(isNewIngredient, forKey: CodingKeys.isNewIngredient.rawValue)
         aCoder.encode(index, forKey: CodingKeys.index.rawValue)
+        aCoder.encode(isSelected, forKey: CodingKeys.isSelected.rawValue)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -82,18 +85,21 @@ class Ingredient: NSObject, Codable {
         self.data = try values.decode(String.self, forKey: CodingKeys.data)
         self.isNewIngredient = try values.decode(Bool.self, forKey: CodingKeys.isNewIngredient)
         self.index = try values.decode(Int.self, forKey: CodingKeys.index)
+        self.isSelected = try values.decode(Bool.self, forKey: CodingKeys.isSelected)
     }
     
     override init() {
         data = ""
         isNewIngredient = true
         index = -1
+        isSelected = false
     }
     
-    init(data: String, isNew: Bool, atIndex: Int) {
+    init(data: String, isNew: Bool, atIndex: Int, isSelected: Bool) {
         self.data = data
         self.isNewIngredient = isNew
         self.index = atIndex
+        self.isSelected = isSelected
     }
     
     func isEqual(other: Ingredient) -> Bool {
