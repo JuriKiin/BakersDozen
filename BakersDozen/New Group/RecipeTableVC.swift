@@ -42,7 +42,7 @@ class RecipeTableVC: UITableViewController {
         recipeTable.backgroundColor = UIColor(red: 0.28, green: 0.28, blue: 0.28, alpha: 1) //Set the background color
         
         recipeContentView.isHidden = true   //Set our content view to hidden by default
-        shownRecipeIndex = -1               //Set our index to -1 (default value)
+        shownRecipeIndex = 0               //Set our index to -1 (default value)
         //Set the center of our content view to be at the bottom of the window.
         recipeContentView.center = CGPoint(x: recipeContentView.center.x, y: self.view.frame.height + recipeContentView.frame.height / 2)
         //Set the recipe table text
@@ -243,7 +243,6 @@ class RecipeTableVC: UITableViewController {
         //If we are already displaying the recipe for this cell, stop displaying it
         if atIndex == shownRecipeIndex {
              recipeContentView.isHidden = !recipeContentView.isHidden
-             shownRecipeIndex = -1
         } else {    //Otherwise, display it.
             recipeContentView.isHidden = false
             shownRecipeIndex = atIndex

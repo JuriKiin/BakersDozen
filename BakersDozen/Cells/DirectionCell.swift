@@ -65,7 +65,6 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     @objc func toggleIngredientSelected(press: UITapGestureRecognizer) {
         //Create cell.
         let cell = press.view as! IngredientCollectionCell
-        let cellIndex = ingredientView.indexPath(for: cell)
         //If direction's ingredients is 0, simeply add it.
         if direction.ingredients.count == 0 {
             cell.ingredient.isSelected = true
