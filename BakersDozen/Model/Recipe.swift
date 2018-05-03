@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Direction: NSObject, Codable {
+class Direction: Codable {
     var data: String
     var ingredients: [Ingredient]
     var hasTimer: Bool
@@ -33,16 +33,16 @@ class Direction: NSObject, Codable {
         self.index = try values.decode(Int.self, forKey: CodingKeys.index)
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encode(data, forKey: CodingKeys.data.rawValue)
-        aCoder.encode(ingredients, forKey: CodingKeys.ingredients.rawValue)
-        aCoder.encode(hasTimer, forKey: CodingKeys.hasTimer.rawValue)
-        aCoder.encode(isNewDirection, forKey: CodingKeys.isNewDirection.rawValue)
-        aCoder.encode(index, forKey: CodingKeys.index.rawValue)
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(data, forKey: .data)
+        try container.encode(ingredients, forKey: .ingredients)
+        try container.encode(hasTimer, forKey: .hasTimer)
+        try container.encode(isNewDirection, forKey: .isNewDirection)
+        try container.encode(index, forKey: .index)
     }
     
-    
-    override init() {
+    init() {
         data = ""
         hasTimer = false
         ingredients = []
@@ -58,12 +58,11 @@ class Direction: NSObject, Codable {
     }
 }
 
-class Ingredient: NSObject, Codable {
+class Ingredient: Codable {
     var data: String
     var isNewIngredient: Bool
     var isSelected: Bool
     var index: Int
-    
     
     enum CodingKeys: String, CodingKey {
         case data = "data"
@@ -72,11 +71,12 @@ class Ingredient: NSObject, Codable {
         case isSelected = "isSelected"
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encode(data, forKey: CodingKeys.data.rawValue)
-        aCoder.encode(isNewIngredient, forKey: CodingKeys.isNewIngredient.rawValue)
-        aCoder.encode(index, forKey: CodingKeys.index.rawValue)
-        aCoder.encode(isSelected, forKey: CodingKeys.isSelected.rawValue)
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(data, forKey: .data)
+        try container.encode(isNewIngredient, forKey: .isNewIngredient)
+        try container.encode(isSelected, forKey: .isSelected)
+        try container.encode(index, forKey: .index)
     }
     
     public required init(from decoder: Decoder) throws {
@@ -88,7 +88,7 @@ class Ingredient: NSObject, Codable {
         self.isSelected = try values.decode(Bool.self, forKey: CodingKeys.isSelected)
     }
     
-    override init() {
+    init() {
         data = ""
         isNewIngredient = true
         index = -1
@@ -108,15 +108,7 @@ class Ingredient: NSObject, Codable {
     
 }
 
-
-public struct RecipeList {
-    var recipes: [Recipe]
-    init() {
-        recipes = [Recipe]()
-    }
-}
-
-class Recipe: NSObject, Codable {
+class Recipe: Codable {
     
     var title: String
     var image: Data
@@ -146,20 +138,8 @@ class Recipe: NSObject, Codable {
         case color = "color"
     }
     
-    func encodeWithCoder(aCoder: NSCoder) {
-        aCoder.encode(title, forKey: CodingKeys.title.rawValue)
-        aCoder.encode(image, forKey: CodingKeys.image.rawValue)
-        aCoder.encode(rating, forKey: CodingKeys.rating.rawValue)
-        aCoder.encode(_id, forKey: CodingKeys._id.rawValue)
-        aCoder.encode(ingredients, forKey: CodingKeys.ingredients.rawValue)
-        aCoder.encode(directions, forKey: CodingKeys.directions.rawValue)
-        aCoder.encode(notes, forKey: CodingKeys.notes.rawValue)
-        aCoder.encode(color, forKey: CodingKeys.color.rawValue)
-    }
-    
-    
     //Default init.
-    override init(){
+    init(){
         title = ""
         rating = 0
         ingredients = []
@@ -197,6 +177,18 @@ class Recipe: NSObject, Codable {
         self._id = try values.decode(String.self, forKey: CodingKeys._id)
         self.image = try values.decode(Data.self, forKey: CodingKeys.image)
         self.color = try values.decode([CGFloat].self, forKey: CodingKeys.color)
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(title, forKey: .title)
+        try container.encode(rating, forKey: .rating)
+        try container.encode(ingredients, forKey: .ingredients)
+        try container.encode(directions, forKey: .directions)
+        try container.encode(notes, forKey: .notes)
+        try container.encode(_id, forKey: ._id)
+        try container.encode(image, forKey: .image)
+        try container.encode(color, forKey: .color)
     }
     
     

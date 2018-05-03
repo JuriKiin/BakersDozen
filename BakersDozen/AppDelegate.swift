@@ -16,16 +16,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        
-        //Thread.sleep(forTimeInterval: 1.5)
-        
-//        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: "recipes.json")
-//        let success = NSKeyedArchiver.archiveRootObject(RecipeData.sharedData.recipes, toFile: pathToFile.path)
-//        if success {
-//            RecipeData.sharedData.recipes = NSArray(contentsOf: pathToFile) as! [Recipe]
-//            print(RecipeData.sharedData.recipes.count)
-//        }
-        
+        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: "recipes.json")
+        do {
+            print(pathToFile.path)
+            let data = try Data.init(contentsOf: pathToFile, options: [])
+            let recipes = try JSONDecoder().decode([Recipe].self, from: data)
+            print("Success Getting something")
+            RecipeData.sharedData.recipes = recipes
+        } catch {
+            print("Retrieve Failed")
+            print(error)
+            RecipeData.sharedData.recipes = []  //If we fail, make it empty...
+        }
         return true
     }
 
@@ -46,20 +48,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationWillTerminate(_ application: UIApplication) {
-        print("About to close")
-//        let recipes = RecipeData.sharedData.recipes
-//        // Get the url of Persons.json in document directory
-//        guard let documentDirectoryUrl = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-//        let fileUrl = documentDirectoryUrl.appendingPathComponent("recipes.json")
-//        
-//        // Transform array into data and save it into file
-//        do {
-//            let data = try JSONSerialization.data(withJSONObject: recipes, options: [])
-//            try data.write(to: fileUrl, options: [])
-//            print("Successfully saved recipes: \(recipes.count)")
-//        } catch {
-//            print(error)
-//        }
+        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: "recipes.json")
+        let recipes = RecipeData.sharedData.recipes
+        do {
+            let data = try JSONEncoder().encode(recipes)
+            try data.write(to: pathToFile)
+            print(pathToFile.path)
+        } catch {
+            print("Save Failed")
+        }
     }
 
 
