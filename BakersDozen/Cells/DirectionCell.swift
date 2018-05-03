@@ -130,13 +130,13 @@ class DirectionCell: UITableViewCell, UITextFieldDelegate, UICollectionViewDeleg
     @objc func toggleTimer() {
         direction.hasTimer = !direction.hasTimer
         delegate?.updateDirectionCell(self, withDirection: direction)
-        checkTimer()
-        
+        //checkTimer()
+
     }
     
     func initDirection(){
         directionTextField.text = direction.data
-        checkTimer()
+        //checkTimer()
         ingredientView.reloadData()
     }
     
