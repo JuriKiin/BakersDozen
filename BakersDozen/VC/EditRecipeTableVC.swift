@@ -44,7 +44,8 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
             //Replace the recipe we already have.
             RecipeData.sharedData.recipes[recipeIndexInMaster] = recipe
         }
-        
+        //Save recipes
+        saveRecipes()
         //Load MainView.
         receipeTableDelegate?.reloadRecipeTable()
         dismiss(animated: true, completion: nil)
@@ -93,6 +94,18 @@ class EditRecipeTableVC: UITableViewController, UIImagePickerControllerDelegate,
                 let dirCell = cell as! DirectionCell
                 dirCell.reloadIngredientData(data: recipe.ingredients)
             }
+        }
+    }
+    
+    func saveRecipes() {
+        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: "recipes.json")
+        let recipes = RecipeData.sharedData.recipes
+        do {
+            let data = try JSONEncoder().encode(recipes)
+            try data.write(to: pathToFile)
+            print(pathToFile.path)
+        } catch {
+            print("Save Failed")
         }
     }
     
