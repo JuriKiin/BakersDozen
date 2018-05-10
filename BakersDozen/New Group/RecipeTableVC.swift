@@ -298,6 +298,19 @@ class RecipeTableVC: UITableViewController {
             toggleEditTable()
             recipeTable.reloadData()
             recipeContentView.isHidden = true
+            saveRecipes()
+        }
+    }
+    
+    func saveRecipes() {
+        let pathToFile = FileManager.filePathInDocumentsDirectory(fileName: "recipes.json")
+        let recipes = RecipeData.sharedData.recipes
+        do {
+            let data = try JSONEncoder().encode(recipes)
+            try data.write(to: pathToFile)
+            print(pathToFile.path)
+        } catch {
+            print("Save Failed")
         }
     }
     
